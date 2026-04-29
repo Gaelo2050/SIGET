@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGET - Desarrollo Académico</title>
+    <link rel="stylesheet" th:href="@{/css/stylesRHEvaluar.css}">
+    <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+</head>
+<body>
+
+<!-- Encabezado -->
+<div th:replace="~{fragments/header :: encabezado('DesarrolloAcademico')}"></div>
+
+<!-- Menú de navegación -->
+<div th:replace="~{fragments/menu-navegacion :: menu-secciones('DesarrolloAcademico', 'evaluar')}"></div>
+
+<!-- Tabla de solicitudes (misma que RH) -->
+<div th:replace="~{fragments/tabla-evaluar :: tabla-solicitudes(${SolicitudDesarrolloDto}, 'DesarrolloAcademico')}"></div>
+
+</body>
+</html>
+

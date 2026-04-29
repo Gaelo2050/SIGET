@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SIGET - Servicios Escolares</title>
+        <link rel="stylesheet" th:href="@{/css/stylesServiciosEscolaresConfirmar.css}">
+        <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+    </head>
+    <body>
+
+    <!-- Reutilizando el fragmento de encabezado -->
+    <div th:replace="~{fragments/header :: encabezado('ServiciosEscolares')}"></div>
+
+    <!-- Reutilizando el fragmento de menú de navegación -->
+    <div th:replace="~{fragments/menu-navegacion :: menu-secciones('ServiciosEscolares', 'evaluar')}"></div>
+
+    <!-- Fragmento genérico de confirmación -->
+    <!-- OJO: aquí sólo van 2 parámetros: (tablaDto, departamento) -->
+    <div th:replace="~{fragments/confirmar-info :: confirmar-info(${TablaServiciosDto}, ${departamento})}"></div>
+    
+    </body>
+</html>

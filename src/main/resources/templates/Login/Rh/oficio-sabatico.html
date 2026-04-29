@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Oficio de Comisión Sabática</title>
+  <link rel="stylesheet" th:href="@{/css/documentoOficio.css}">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ENCABEZADO -->
+  <div class="header">
+    <div class="header-left">
+      <img th:src="@{/img/logo-tecnm.png}" alt="TecNM">
+      <div class="inst">
+        Tecnológico Nacional de México<br>
+        Instituto Tecnológico de Culiacán
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="fecha"
+           th:text="'Culiacán, Sinaloa, a ' + ${#temporals.format(fechaOficio, 'dd/MM/yyyy')}">
+        Culiacán, Sinaloa, a 10/06/2025
+      </div>
+    </div>
+  </div>
+
+  <!-- TÍTULO -->
+  <h2 class="doc-title">OFICIO DE COMISIÓN SABÁTICA</h2>
+
+  <!-- CONTENIDO -->
+  <main class="content">
+    <p>
+      Por este conducto se hace constar que la C.
+      <span th:text="${TablaRhDto.nombre}">Nombre Docente</span>,
+      adscrita al
+      <span th:text="${departamento}">Departamento de Sistemas y Computación</span>,
+      cuenta con nombramiento
+      <span th:text="${TablaRhDto.categoria}">Profesor Titular A</span>
+      y tiene una antigüedad de
+      <span th:text="${TablaRhDto.fechaIng}">X años</span>
+      en esta institución.
+    </p>
+
+    <p>
+      De acuerdo con la normativa vigente y la autorización del Consejo correspondiente,
+      se le otorga comisión sabática para desarrollar las actividades descritas en su
+      proyecto aprobado, durante el periodo que se indique en la documentación anexa.
+    </p>
+
+    <p>
+      Se extiende el presente oficio para los fines legales y administrativos que al
+      interesado(a) convengan.
+    </p>
+  </main>
+
+  <!-- FIRMA -->
+  <section class="signature">
+    <div class="att">
+      <strong>ATENTAMENTE</strong>
+      <div class="slogan">Excelencia en Educación Tecnológica®</div>
+    </div>
+
+    <div class="signed">
+
+      <!-- 1) Si YA está firmado, mostramos la imagen de la firma -->
+      <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}">
+        <img th:if="${documentoEmitido.firmaBase64 != null}"
+             th:src="${'data:image/png;base64,' + documentoEmitido.firmaBase64}"
+             alt="Firma Directora"
+             style="width:220px; height:auto; display:block; margin:0 auto 5px auto;" />
+      </div>
+
+      <!-- 2) Si NO está firmado, mostramos el canvas tipo paint -->
+      <div th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+        <p style="text-align:center; margin-bottom:5px;">
+          Dibuje aquí la firma de la Directora:
+        </p>
+
+        <canvas id="signature-pad"
+                style="border:1px solid #000; width:250px; height:120px; display:block; margin:0 auto 5px auto;">
+        </canvas>
+
+        <div style="text-align:center; margin-top:5px;">
+          <button type="button" id="clear-btn">Limpiar</button>
+          <button type="button" id="save-btn">Guardar firma</button>
+        </div>
+
+        <!-- Formulario oculto para enviar la firma al backend -->
+        <form th:action="@{/Rh/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+              method="post"
+              id="firma-form">
+          <input type="hidden" name="firma" id="firma-input">
+        </form>
+      </div>
+
+      <!-- Nombre y cargo  -->
+      <div class="name" th:text="${nombreDirectora}">Nombre de la Directora</div>
+      <div class="position">Directora del Instituto Tecnológico de Culiacán</div>
+
+      <!-- Leyenda de firma electrónica -->
+      <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}"
+           style="text-align:center; font-size:11px; margin-top:4px;">
+        Firmado electrónicamente por la Dirección
+        el
+        <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+          28/11/2025 10:00
+        </span>.
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    Copia para: Recursos Humanos – Desarrollo Académico – Expediente del docente.
+  </div>
+
+</div>
+
+<!-- Script de firma sólo si NO está firmado -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+  const canvas   = document.getElementById('signature-pad');
+  const clearBtn = document.getElementById('clear-btn');
+  const saveBtn  = document.getElementById('save-btn');
+  const firmaInp = document.getElementById('firma-input');
+  const form     = document.getElementById('firma-form');
+
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(255,255,255,0)',
+    penColor: 'black'
+  });
+
+  clearBtn.addEventListener('click', () => {
+    signaturePad.clear();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (signaturePad.isEmpty()) {
+      alert('Por favor dibuja la firma antes de guardar.');
+      return;
+    }
+
+    const dataUrl = signaturePad.toDataURL('image/png');
+    firmaInp.value = dataUrl;
+    form.submit();
+  });
+</script>
+
+</body>
+</html>

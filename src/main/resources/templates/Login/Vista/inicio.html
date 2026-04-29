@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIGET</title>
+
+    <!-- CSS correcto -->
+    <link rel="stylesheet" th:href="@{/css/Styles2.css}" />
+
+    <!-- Favicon (sí existe como .png) -->
+    <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+</head>
+<body>
+
+<!-- ENCABEZADO -->
+<header class="encabezado">
+    <div class="logo">
+        <img th:src="@{/img/logo.png}" alt="Logo SIGET" />
+    </div>
+    <nav class="menu">
+        <a href="#">QUIÉNES SOMOS</a>
+        <a th:href="@{/login/inicio}">INICIAR SESIÓN</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <img th:src="@{/img/foto.jpeg}" alt="Equipo de trabajo" />
+</section>
+
+<!-- BARRA -->
+<div class="barra-colores"></div>
+
+<!-- DESCRIPCIÓN -->
+<section class="descripcion">
+    <p>
+        <strong class="azul">SIGET</strong> es una empresa tecnológica enfocada en mejorar la gestión
+        documental dentro de las universidades. Nacimos con el propósito de facilitar la entrega y
+        seguimiento de documentos académicos y administrativos, evitando que los Docentes pierdan
+        tiempo recorriendo diferentes áreas para obtener firmas o aprobaciones. Con nuestro sistema,
+        automatizamos el proceso, garantizando una gestión más rápida, ordenada y segura.
+    </p>
+</section>
+
+<!-- BARRA -->
+<div class="barra-colores"></div>
+
+<!-- MODELO DE NEGOCIO -->
+<section class="modelo">
+    <h2>¿CUÁL ES NUESTRO MODELO DE NEGOCIO?</h2>
+    <div class="caracteristicas">
+        <div class="item">
+            <img th:src="@{/img/doc.jpeg}" alt="Papeleo" />
+            <p>Evita buscar el área correspondiente para obtener el documento necesario.</p>
+        </div>
+        <div class="item">
+            <img th:src="@{/img/time.jpeg}" alt="Reloj" />
+            <p>Ahorra tiempo.</p>
+        </div>
+        <div class="item">
+            <img th:src="@{/img/ubi.jpeg}" alt="Ubicación" />
+            <p>Pídelo desde donde estés.</p>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

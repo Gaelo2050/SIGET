@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Constancia DSyC</title>
+    <style>
+        body {
+            background: #f5f5f5;
+            font-family: "Times New Roman", serif;
+        }
+        .page {
+            width: 820px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 40px 55px 35px;
+            border: 1px solid #d0d0d0;
+            box-sizing: border-box;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 35px;
+        }
+        .logos {
+            font-size: 12px;
+        }
+        .logos .titulo {
+            font-size: 26px;
+            font-weight: 700;
+        }
+        .logos .subtitulo {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        .right-header {
+            text-align: right;
+            font-size: 12px;
+        }
+        .right-header .tec {
+            font-weight: bold;
+            margin-bottom: 45px;
+        }
+        .right-header .line {
+            margin-bottom: 3px;
+        }
+
+        .title-block {
+            text-align: left;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+        .title-block strong {
+            display: block;
+        }
+        .title-block .line {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .title-block .presente {
+            margin-top: 6px;
+            font-weight: bold;
+        }
+
+        .body-text {
+            font-size: 13px;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 6px 8px;
+        }
+        th {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .atentamente {
+            margin-top: 30px;
+            margin-bottom: 50px;
+            font-size: 12px;
+        }
+        .atentamente .excelencia {
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .firmas {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            font-size: 11px;
+            text-align: center;
+        }
+        .firma {
+            width: 32%;
+        }
+        .firma .nombre {
+            margin-top: 55px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .firma .puesto {
+            margin-top: 3px;
+        }
+
+        footer {
+            border-top: 1px solid #c0c0c0;
+            margin-top: 40px;
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 10px;
+        }
+        .anio {
+            width: 22%;
+            text-align: left;
+        }
+        .anio .anio-num {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .domicilio {
+            width: 70%;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Bloque firma digital DSyC */
+        .firma-dsyc-block {
+            margin-bottom: 8px;
+        }
+        .firma-canvas-wrapper {
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 90px;
+            margin: 0 auto 5px auto;
+        }
+        .firma-dsyc-buttons {
+            margin-top: 4px;
+        }
+        .firma-dsyc-buttons button {
+            font-size: 11px;
+            padding: 3px 8px;
+            margin: 0 3px;
+            cursor: pointer;
+        }
+        /* Ajuste del nombre cuando hay firma arriba */
+        .firma .nombre {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <header>
+        <div class="logos">
+            <div class="titulo">Educación</div>
+            <div class="subtitulo">Secretaría de Educación Pública</div>
+        </div>
+
+        <div class="right-header">
+            <div class="tec">Instituto Tecnológico de Culiacán</div>
+            <div class="line">Culiacán, Sinaloa, 13/junio/2025</div>
+            <div class="line">OFICIO No.: DSyC-391/2025</div>
+            <div class="line"><strong>ASUNTO: Constancia</strong></div>
+        </div>
+    </header>
+
+    <section class="title-block">
+        <div class="line">COMISIÓN DE EVALUACIÓN DEL</div>
+        <div class="line">PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE</div>
+        <div class="line">PARA LOS INSTITUTOS TECNOLÓGICOS FEDERALES Y CENTROS.</div>
+        <div class="presente">P R E S E N T E</div>
+    </section>
+
+    <p class="body-text">
+        Por medio del presente se hace constar que el C.
+        <strong th:text="${TablaDSyCDto.nombre != null ? TablaDSyCDto.nombre : 'Nombre del Docente'}">
+            Norma Rebeca Godoy Castro
+        </strong>
+        implementó estrategias didácticas innovadoras en el aula por asignatura:
+    </p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Asignatura</th>
+            <th>Estrategia</th>
+            <th>Programa educativo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${inovacion != null}">
+            <td th:text="${inovacion.asignatura}">Ingeniería de software</td>
+            <td th:text="${inovacion.estrategia}">Aprendizaje basado en proyectos</td>
+            <td th:text="${inovacion.programaEducativo}">Ingeniería en Sistemas Computacionales</td>
+        </tr>
+        <tr th:if="${inovacion == null}">
+            <td colspan="3" style="text-align: center; color: #999;">
+                No hay datos de innovación disponibles
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p class="body-text">
+        El producto obtenido es un reporte de resolución de problemas. Con la implementación de la misma,
+        permitió a los estudiantes participar de manera activa en su aprendizaje al analizar, diseñar,
+        planificar y evaluar sus capacidades en un contexto real, impactando positivamente en su conocimiento
+        y desarrollo de sus habilidades <em>hard skills</em> y <em>soft skills</em>. Las estrategias mencionadas
+        cuentan con la rúbrica de evaluación correspondiente.
+    </p>
+
+    <div class="atentamente">
+        <strong>A T E N T A M E N T E</strong><br>
+        <span class="excelencia">Excelencia en Educación Tecnológica®</span>
+    </div>
+
+    <div class="firmas">
+        <!-- COLUMNA 1: MARISOL + FIRMA DIGITAL -->
+        <div class="firma">
+
+            <div class="firma-dsyc-block">
+                <!-- Si NO está firmado, mostrar canvas -->
+                <div th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+                    <p style="font-size: 11px; margin-bottom: 4px;">
+                        Firma de la Jefa del Depto. de Sistemas y Computación
+                    </p>
+
+                    <form th:action="@{/DSyC/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+                          method="post"
+                          id="firma-form">
+
+                        <div class="firma-canvas-wrapper">
+                            <canvas id="signature-pad" style="width:100%; height:100%;"></canvas>
+                        </div>
+
+                        <input type="hidden" name="firma" id="firma-input"/>
+
+                        <div class="firma-dsyc-buttons">
+                            <button type="button" id="clear-btn">Limpiar</button>
+                            <button type="button" id="save-btn">Guardar firma</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Si YA está firmado, mostrar la firma almacenada -->
+                <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}">
+                    <img th:src="'data:image/png;base64,' + ${documentoEmitido.firmaBase64}"
+                         alt="Firma registrada"
+                         style="height:70px; margin-bottom:0; display:block; margin-left:auto; margin-right:auto;"/>
+                    <p style="font-size: 10px; margin-top:2px;">
+                        Firma registrada el
+                        <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+                            01/01/2025 12:00
+                        </span>
+                    </p>
+                </div>
+
+                <!-- Si no hay DocumentoEmitido (vista previa) -->
+                <div th:if="${documentoEmitido == null}">
+                    <!-- Vista previa sin firma -->
+                </div>
+            </div>
+
+            <div class="nombre">MARISOL MANJARREZ BELTRÁN</div>
+            <div class="puesto">JEFA DEL DEPTO. DE SISTEMAS Y COMPUTACIÓN</div>
+        </div>
+
+        <!-- COLUMNA 2 -->
+        <div class="firma">
+            <div class="nombre">ARCELIA JUDITH BUSTILLOS MARTÍNEZ</div>
+            <div class="puesto">
+                PRESIDENTA DE ACADEMIA DE ING. EN SISTEMAS<br>COMPUTACIONALES
+            </div>
+        </div>
+
+        <!-- COLUMNA 3 -->
+        <div class="firma">
+            <div class="nombre">BERTHA LUCÍA PATRÓN ARELLANO</div>
+            <div class="puesto">
+                RESPONSABLE DEL DESPACHO DE LA<br>SUBDIRECCIÓN ACADÉMICA
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="anio"></div>
+
+        <div class="domicilio">
+            Juan de Dios Bátiz 310 Pte. Col. Guadalupe C.P. 80220<br>
+            Culiacán, Sinaloa. Tel. 667-454-0100<br>
+            tecmm.mx &nbsp; | &nbsp; www.culiacan.tecnm.mx
+        </div>
+    </footer>
+
+</div>
+
+<!-- Librería SignaturePad solo si NO está firmado -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<!-- Script de manejo del canvas -->
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+    const canvas   = document.getElementById('signature-pad');
+    const clearBtn = document.getElementById('clear-btn');
+    const saveBtn  = document.getElementById('save-btn');
+    const firmaInp = document.getElementById('firma-input');
+    const form     = document.getElementById('firma-form');
+
+    if (canvas && clearBtn && saveBtn && firmaInp && form) {
+
+        function resizeCanvas() {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            const rect  = canvas.getBoundingClientRect();
+            canvas.width  = rect.width * ratio;
+            canvas.height = rect.height * ratio;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(ratio, ratio);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'rgba(255,255,255,0)',
+            penColor: 'black'
+        });
+
+        clearBtn.addEventListener('click', () => {
+            signaturePad.clear();
+        });
+
+        saveBtn.addEventListener('click', () => {
+            if (signaturePad.isEmpty()) {
+                alert('Por favor dibuja la firma antes de guardar.');
+                return;
+            }
+            const dataUrl = signaturePad.toDataURL('image/png');
+            firmaInp.value = dataUrl;
+            form.submit();
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+/* styles.css - diseño simple para imitar la constancia en la imagen */
+
+/* reset ligero */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: #111;
+    background: #fff;
+    padding: 20px;
+}
+
+/* página centrada / ancho controlado para impresión */
+.page {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 36px 48px;
+    border: none;
+}
+
+/* header con 3 columnas (izq, centro, der) */
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.logo {
+    display: block;
+    max-height: 70px;
+    width: auto;
+}
+
+/* ajustar tamaños particulares */
+.header-left .logo.sep { max-height: 90px; }
+.header-center .logo.tn { max-height: 48px; margin-top: 6px; }
+.header-right .logo.itc { max-height: 90px; }
+
+/* meta (folio) alineado a la derecha */
+.doc-meta {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+
+.right-meta .dept {
+    font-weight: 700;
+    font-size: 12px;
+}
+.right-meta .folio {
+    font-size: 11px;
+    color: #222;
+}
+
+/* título */
+.title {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 14px 0;
+    letter-spacing: 1px;
+}
+
+/* cuerpo del documento */
+.content {
+    margin-top: 8px;
+    text-align: justify;
+    font-size: 13px;
+    color: #111;
+}
+
+/* negritas y énfasis ya en HTML */
+.content p {
+    margin-bottom: 12px;
+}
+
+/* bloque de firma */
+.signature {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 36px;
+    gap: 12px;
+}
+
+.att {
+    max-width: 40%;
+}
+
+.att strong { font-size: 13px; display: block; margin-bottom: 6px; }
+.att .slogan { font-style: italic; font-size: 11px; color: #333; margin-top: 6px; }
+
+.signed {
+    text-align: left;
+    max-width: 55%;
+}
+
+.signed .name {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.signed .position {
+    font-size: 12px;
+    color: #222;
+}
+
+/* footer */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 42px;
+    border-top: 1px solid #ddd;
+    padding-top: 12px;
+    gap: 12px;
+}
+
+.footer-left { width: 20%; font-size: 12px; color: #222; }
+.footer-center { width: 55%; text-align: left; font-size: 11px; color: #333; }
+.footer-right { width: 25%; text-align: right; }
+
+.footer-logo {
+    height: 36px;
+    margin-left: 6px;
+}
+
+/* impresión: asegurar márgenes y tamaño */
+@media print {
+    body { padding: 0; }
+    .page { box-shadow: none; margin: 0; max-width: 100%; padding: 20mm; }
+    .logo { max-height: 60px; }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Fragmento de encabezado reutilizable -->
+<header th:fragment="encabezado(departamento)" class="encabezado">
+    <div class="logo">
+        <img th:src="@{/img/logo.png}" alt="Logo">
+    </div>
+    <nav class="menu">
+        <div class="dropdown">
+            <a href="#" class="dropbtn">NOTIFICACIONES ⬇</a>
+            <div class="dropdown-content">
+                <!-- Contenido de notificaciones -->
+            </div>
+        </div>
+
+
+        <!-- QUEJAS -->
+        <details class="menu-item">
+            <summary>QUEJAS ⬇</summary>
+            <div class="menu-panel">
+                <a th:href="@{/{dept}/QuejasRh(dept=${departamento})}">Con SIGET</a>
+                <br>
+                <a th:href="@{/{dept}/Quejas(dept=${departamento})}">Con AMBAR</a>
+            </div>
+        </details>
+
+
+        <!-- PERFIL -->
+        <details class="menu-item">
+            <summary>PERFIL ⬇</summary>
+            <div class="menu-panel">
+                <p th:text="${usuario.nombrecompleto}">Nombre usuario</p>
+                <p th:text="${usuario.tipo}">Tipo usuario</p>
+                <a th:href="@{/login/logout}" class="btn-cerrar-sesion">Cerrar Sesión</a>
+            </div>
+        </details>
+
+    </nav>
+</header>
+
+</body>
+</html>

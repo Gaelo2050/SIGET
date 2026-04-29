@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Constancia Laboral - RH</title>
+  <link rel="stylesheet" th:href="@{/css/constanciaRh.css}">
+</head>
+<body>
+<div class="documento">
+
+  <header class="encabezado">
+    <h2>INSTITUTO TECNOLÓGICO DE CULIACÁN</h2>
+    <h3>DEPARTAMENTO DE RECURSOS HUMANOS</h3>
+    <hr>
+  </header>
+
+  <section class="titulo">
+    <h2 style="text-align:center;">CONSTANCIA LABORAL</h2>
+  </section>
+
+  <section class="cuerpo">
+    <p>
+      A quien corresponda:
+    </p>
+
+    <p>
+      Por medio de la presente hago constar que el(la) C.
+      <strong><span th:text="${docente.nombreCompleto}">Nombre del Docente</span></strong>,
+      con RFC <strong><span th:text="${docente.rfc}">XXXX000000</span></strong>,
+      labora en esta institución como
+      <strong><span th:text="${docente.puesto}">Profesor de tiempo completo</span></strong>
+      adscrito al departamento de
+      <strong><span th:text="${docente.departamento}">Sistemas y Computación</span></strong>,
+      desde el día
+      <strong><span th:text="${docente.fechaIngreso}">2018-08-16</span></strong>,
+      manteniendo a la fecha un estatus
+      <strong><span th:text="${docente.estatus}">ACTIVO</span></strong>.
+    </p>
+
+    <p>
+      Se extiende la presente constancia a petición del interesado para los fines legales que a la misma convengan,
+      en la ciudad de Culiacán, Sinaloa, a los
+      <span th:text="${fechaActualDia}">01</span> días del mes de
+      <span th:text="${fechaActualMesLargo}">diciembre</span> de
+      <span th:text="${fechaActualAnio}">2025</span>.
+    </p>
+  </section>
+
+  <!-- BLOQUE DE FIRMA -->
+  <section class="firmas" style="text-align:center; margin-top:60px;">
+
+    <p>ATENTAMENTE</p>
+
+    <!-- Si YA está firmado, mostramos la imagen -->
+    <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}">
+      <img th:if="${documentoEmitido.firmaBase64 != null}"
+           th:src="${'data:image/png;base64,' + documentoEmitido.firmaBase64}"
+           alt="Firma electrónica RH"
+           style="width:220px; height:auto; display:block; margin:30px auto 5px auto;" />
+    </div>
+
+    <!-- Si NO está firmado, mostramos el canvas -->
+    <div th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+      <p style="margin-bottom:5px;">
+        Dibuje aquí la firma del área:
+      </p>
+
+      <canvas id="signature-pad"
+              style="border:1px solid #000; width:250px; height:120px; display:block; margin:0 auto 5px auto;">
+      </canvas>
+
+      <div style="text-align:center; margin-top:5px;">
+        <button type="button" id="clear-btn">Limpiar</button>
+        <button type="button" id="save-btn">Guardar firma</button>
+      </div>
+
+      <!-- Formulario oculto para enviar la firma al backend -->
+      <form th:action="@{/Rh/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+            method="post"
+            id="firma-form">
+        <input type="hidden" name="firma" id="firma-input">
+      </form>
+    </div>
+
+    <p style="margin-top:40px;">__________________________________</p>
+    <p><strong><span th:text="${rh.nombreEncargado}">Nombre de Jefe de RH</span></strong></p>
+    <p>Jefe del Departamento de Recursos Humanos</p>
+
+    <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}"
+         style="text-align:center; font-size:11px; margin-top:6px;">
+      Firmado electrónicamente por el Departamento de Recursos Humanos
+      el
+      <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+        28/11/2025 10:00
+      </span>.
+    </div>
+  </section>
+</div>
+
+<!-- Script de SignaturePad SOLO si no está firmado -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+  const canvas   = document.getElementById('signature-pad');
+  const clearBtn = document.getElementById('clear-btn');
+  const saveBtn  = document.getElementById('save-btn');
+  const firmaInp = document.getElementById('firma-input');
+  const form     = document.getElementById('firma-form');
+
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(255,255,255,0)',
+    penColor: 'black'
+  });
+
+  clearBtn.addEventListener('click', () => {
+    signaturePad.clear();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (signaturePad.isEmpty()) {
+      alert('Por favor dibuja la firma antes de guardar.');
+      return;
+    }
+
+    const dataUrl = signaturePad.toDataURL('image/png');
+    firmaInp.value = dataUrl;
+    form.submit();
+  });
+</script>
+
+</body>
+</html>

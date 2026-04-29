@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMBAR</title>
+  <link rel="stylesheet" th:href="@{/css/stylesQuejasSIGET.css}" />
+  <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+</head>
+<body>
+
+<header class="encabezado">
+  <div class="logo">
+    <img th:src="@{/img/logo.png}" alt="Logo SIGET" />
+  </div>
+
+  <nav class="menu">
+    <details class="menu-item">
+      <summary>NOTIFICACIONES ⬇</summary>
+      <div class="menu-panel">
+        <p>No hay notificaciones nuevas.</p>
+      </div>
+    </details>
+
+    <details class="menu-item">
+      <summary>QUEJAS ⬇</summary>
+      <div class="menu-panel">
+        <a th:href="@{/Docente/Quejas}">Con SIGET</a>
+        <br>
+        <a th:href="@{/Docente/QuejasAmbarDocente}">Con AMBAR</a>
+      </div>
+    </details>
+
+    <!-- PERFIL -->
+    <details class="menu-item">
+      <summary>PERFIL ⬇</summary>
+      <div class="menu-panel">
+        <p th:text="${usuario.nombrecompleto}">Nombre usuario</p>
+        <p th:text="${usuario.tipo}">Tipo usuario</p>
+        <a th:href="@{/login/logout}" class="btn-cerrar-sesion">Cerrar Sesión</a>
+      </div>
+    </details>
+  </nav>
+</header>
+
+<div class="cambio">
+  <a class="vista" th:href="@{/Docente/Solicitar}">SOLICITAR</a>
+  <a class="vista" th:href="@{/Docente/Confirmado}">REVISADOS</a>
+</div>
+
+
+<div th:replace="~{fragments/form-quejas :: form-quejas(
+        'Queja sobre AMBAR',
+        @{/Docente/Quejas/enviar},
+        'AMBAR'
+    )}">
+</div>
+
+</body>
+</html>

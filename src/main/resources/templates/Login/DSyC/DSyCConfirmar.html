@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGET - DSyC</title>
+    <link rel="stylesheet" th:href="@{/css/stylesRHConfirmar.css}">
+    <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+</head>
+<body>
+
+<!-- ENCABEZADO -->
+<div th:replace="~{fragments/header :: encabezado('DSyC')}"></div>
+
+<!-- MENÚ (la pestaña activa sigue siendo "evaluar") -->
+<div th:replace="~{fragments/menu-navegacion :: menu-secciones('DSyC', 'evaluar')}"></div>
+
+<!-- FRAGMENTO DE CONFIRMACIÓN COMPARTIDO -->
+<div th:replace="~{fragments/confirmar-info :: confirmar-info(${TablaDSyCDto}, 'DSyC')}"></div>
+
+<!-- BOTÓN DOCUMENTO (Innovación / Recurso Educativo) -->
+<div style="text-align: center; margin-top: 25px;">
+    <a th:if="${TablaDSyCDto != null and solicitudId != null}"
+       th:href="@{/DSyC/Constancia/{id}(id=${TablaDSyCDto.docente_id}, solicitudId=${solicitudId})}"
+       class="btn-generar-doc">
+        Documento
+    </a>
+</div>+
+
+
+
+
+
+
+</body>
+</html>
+
+

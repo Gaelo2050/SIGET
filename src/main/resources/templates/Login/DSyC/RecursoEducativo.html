@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Constancia ITC</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: "Times New Roman", serif;
+      background: #e5e5e5;
+    }
+    .page {
+      width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 130px 60px 40px 60px; /* texto más abajo */
+      box-shadow: 0 0 8px rgba(0,0,0,0.25);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+    }
+    .header-left-text {
+      font-size: 13px;
+      line-height: 1.2;
+    }
+    .header-left-text span { display: block; }
+    .header-left-text .title {
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .header-right {
+      text-align: right;
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .main-title {
+      margin-top: 30px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+      line-height: 1.5;
+    }
+    .main-title span { display: block; }
+
+    .body-text {
+      margin-top: 25px;
+      font-size: 13px;
+      text-align: justify;
+      line-height: 1.5;
+    }
+    .closing {
+      margin-top: 25px;
+      font-size: 13px;
+      text-align: justify;
+      line-height: 1.5;
+    }
+
+    .atentamente {
+      margin-top: 40px;
+      font-size: 12px;
+      text-align: left;
+      letter-spacing: 2px;
+    }
+    .atentamente small {
+      display: block;
+      font-size: 10px;
+      letter-spacing: normal;
+      margin-top: 3px;
+    }
+
+    .signature-center {
+      margin-top: 25px;
+      text-align: center;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: bold;
+      line-height: 1.3;
+    }
+
+    .signature-row {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: bold;
+      text-align: center;
+    }
+    .signature-row div {
+      width: 45%;
+      line-height: 1.3;
+    }
+
+    .footer {
+      margin-top: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+    }
+    .footer-left-text {
+      line-height: 1.2;
+    }
+    .footer-center {
+      text-align: center;
+      line-height: 1.3;
+      margin-left: 40px;
+    }
+
+    /* SOLO la línea de la firma de DSyC */
+    .signature-center::before {
+      content: "";
+      display: block;
+      margin: 0 auto 4px auto;
+      width: 60%;
+      border-top: 1px solid #000;
+    }
+
+    /* Bloque firma digital DSyC */
+    .firma-dsyc-block {
+      margin-bottom: 10px;
+    }
+    .firma-canvas-wrapper {
+      border: 1px solid #ccc;
+      width: 320px;
+      height: 130px;
+      margin: 8px auto 6px auto;
+    }
+    .firma-dsyc-buttons {
+      margin-top: 6px;
+    }
+    .firma-dsyc-buttons button {
+      font-size: 11px;
+      padding: 4px 10px;
+      margin: 0 4px;
+      cursor: pointer;
+    }
+
+    /* Simulación de firmas manuscritas de otras áreas (sin línea arriba) */
+    .simulated-signature {
+      font-family: "Lucida Handwriting", "Brush Script MT", cursive;
+      font-size: 20px;
+      font-weight: normal;
+      text-transform: none;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ENCABEZADO SIN LOGOS -->
+  <div class="header">
+    <div class="header-left-text">
+      <span class="title">Educación</span>
+      <span>Secretaría de Educación Pública</span>
+    </div>
+    <div class="header-right">
+      <div>Instituto Tecnológico de Culiacán</div>
+      <br>
+      <div>
+        Culiacán, Sinaloa,
+        <strong th:text="${#dates.format(#dates.createNow(), 'dd/MMMM/yyyy')}">
+          04/diciembre/2025
+        </strong>
+      </div>
+      <div>OFICIO No.: <strong>DSyC-388/2025</strong></div>
+      <div><strong>ASUNTO: Constancia.</strong></div>
+    </div>
+  </div>
+
+  <!-- TÍTULO PRINCIPAL -->
+  <div class="main-title">
+    <span>COMISIÓN DE EVALUACIÓN DEL</span>
+    <span>PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE</span>
+    <span>PARA LOS INSTITUTOS TECNOLÓGICOS FEDERALES Y CENTROS.</span>
+    <span>PRESENTE.</span>
+  </div>
+
+  <!-- CUERPO -->
+  <div class="body-text">
+    Por medio del presente se hace constar que la C.
+    <strong th:text="${nombreDocente}">María Pérez</strong>,
+    elaboró durante el semestre
+    <strong>enero-junio 2025</strong>
+    un recurso educativo digital afín al contenido de una asignatura de su programa educativo,
+    aprobado y utilizado por la academia correspondiente, contando con la rúbrica de evaluación respectiva.
+  </div>
+
+  <div class="closing">
+    Se extiende la presente en la ciudad de Culiacán, Sinaloa, a los trece días del mes de junio del año dos mil veinticinco.
+  </div>
+
+  <!-- ATENTAMENTE -->
+  <div class="atentamente">
+    A T E N T A M E N T E<br>
+    <small>Excelencia en Educación Tecnológica®</small>
+  </div>
+
+  <!-- FIRMA DSyC (con firma digital) -->
+  <div class="signature-center">
+
+    <!-- BLOQUE FIRMA DIGITAL DSyC -->
+    <div class="firma-dsyc-block">
+
+      <!-- Si NO está firmado, mostrar canvas -->
+      <div th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+        <p style="font-size: 11px; margin-bottom: 4px;">
+          Firma de la Jefa del Depto. de Sistemas y Computación
+        </p>
+
+        <form th:action="@{/DSyC/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+              method="post"
+              id="firma-form">
+
+          <div class="firma-canvas-wrapper">
+            <canvas id="signature-pad" style="width:100%; height:100%;"></canvas>
+          </div>
+
+          <input type="hidden" name="firma" id="firma-input"/>
+
+          <div class="firma-dsyc-buttons">
+            <button type="button" id="clear-btn">Limpiar</button>
+            <button type="button" id="save-btn">Guardar firma</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Si YA está firmado, mostrar la firma almacenada -->
+      <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}">
+        <img th:src="'data:image/png;base64,' + ${documentoEmitido.firmaBase64}"
+             alt="Firma registrada"
+             style="height:120px; margin-bottom:0; display:block; margin-left:auto; margin-right:auto;"/>
+        <p style="font-size: 10px; margin-top:4px;">
+          Firma registrada el
+          <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+            01/01/2025 12:00
+          </span>
+        </p>
+      </div>
+
+      <!-- Si no hay DocumentoEmitido, solo mostramos la línea en blanco (modo vista previa) -->
+      <div th:if="${documentoEmitido == null}">
+        <!-- Solo la línea se genera con ::before -->
+      </div>
+    </div>
+
+    <!-- Nombre y cargo DSyC (línea simulada por ::before) -->
+    MARISOL MANJARREZ BELTRÁN<br>
+    JEFA DEL DEPTO. DE SISTEMAS Y COMPUTACIÓN
+  </div>
+
+  <!-- FIRMAS DE OTRAS ÁREAS (simuladas sin línea arriba) -->
+  <div class="signature-row">
+    <div>
+      <div class="simulated-signature">A. J. Bustillos</div>
+      ARCELIA JUDITH BUSTILLOS MARTÍNEZ<br>
+      PRESIDENTA DE ACADEMIA DE ING. EN SISTEMAS<br>
+      COMPUTACIONALES
+    </div>
+    <div>
+      <div class="simulated-signature">B. L. Patrón</div>
+      BERTHA LUCÍA PATRÓN ARELLANO<br>
+      RESPONSABLE DEL DESPACHO DE LA SUBDIRECCIÓN<br>
+      ACADÉMICA
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA SIN LOGOS -->
+  <div class="footer">
+    <div class="footer-left-text"></div>
+
+    <div class="footer-center">
+      Juan de Dios Bátiz 310 Pte. Col. Guadalupe C.P. 80220<br>
+      Culiacán, Sinaloa. Tel. 667-454-0100<br>
+      tecnm.mx &nbsp;&nbsp; www.culiacan.tecnm.mx
+    </div>
+  </div>
+
+</div>
+
+<!-- Librería SignaturePad solo si NO está firmado -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<!-- Script de manejo del canvas -->
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+  const canvas   = document.getElementById('signature-pad');
+  const clearBtn = document.getElementById('clear-btn');
+  const saveBtn  = document.getElementById('save-btn');
+  const firmaInp = document.getElementById('firma-input');
+  const form     = document.getElementById('firma-form');
+
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(255,255,255,0)',
+    penColor: 'black'
+  });
+
+  clearBtn.addEventListener('click', () => {
+    signaturePad.clear();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (signaturePad.isEmpty()) {
+      alert('Por favor dibuja la firma antes de guardar.');
+      return;
+    }
+    const dataUrl = signaturePad.toDataURL('image/png');
+    firmaInp.value = dataUrl;
+    form.submit();
+  });
+</script>
+
+</body>
+</html>

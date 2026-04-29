@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Fragmento de confirmación de información docente -->
+<div th:fragment="confirmar-info(tablaDto, departamento)"
+     class="container"
+     th:if="${tablaDto != null}">
+
+    <div class="tabs">
+        <button class="tab active">Información Personal</button>
+    </div>
+
+    <div class="content">
+        <!-- Columna Izquierda -->
+        <div class="left-panel">
+            <h3>Información Docente</h3>
+
+            <label>NOMBRE COMPLETO</label>
+            <input type="text"
+                   th:value="${tablaDto.nombre}"
+                   placeholder="Nombre completo">
+
+            <div class="two-cols">
+                <div>
+                    <label>RFC</label>
+                    <input type="text"
+                           th:value="${tablaDto.rfc}"
+                           placeholder="RFC">
+                </div>
+                <div>
+                    <label>CURP</label>
+                    <input type="text"
+                           th:value="${tablaDto.curp}"
+                           placeholder="CURP">
+                </div>
+            </div>
+
+            <div class="two-cols">
+                <div>
+                    <label>CORREO</label>
+                    <input type="text"
+                           th:value="${tablaDto.correo}"
+                           placeholder="Correo institucional">
+                </div>
+                <div>
+                    <label>VIGENCIA</label>
+                    <input type="text"
+                           th:value="${tablaDto.fechaIng}"
+                           placeholder="Años y meses de vigencia">
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha -->
+        <div class="right-panel">
+            <h3>Información de la BD</h3>
+
+            <div class="two-cols">
+                <div>
+                    <label>Categoría</label>
+                    <input type="text"
+                           th:value="${tablaDto.categoria}"
+                           placeholder="Categoría">
+                </div>
+                <div>
+                    <label>Estatus Nombramiento</label>
+                    <input type="text"
+                           th:value="${tablaDto.estatusNombramiento}"
+                           placeholder="Estatus del nombramiento">
+                </div>
+            </div>
+
+            <div class="two-cols">
+                <div>
+                    <label>Porcentaje asistencia</label>
+                    <input type="text"
+                           th:value="${tablaDto.porcentaje}"
+                           placeholder="Porcentaje">
+                </div>
+                <div>
+                    <label>Exclusividad</label>
+                    <input type="text"
+                           th:value="${tablaDto.exclusividad}"
+                           placeholder="Exclusividad">
+                </div>
+            </div>
+
+            <div class="two-cols">
+                <div>
+                    <label>Sanción</label>
+                    <input type="text"
+                           th:value="${tablaDto.sancion}"
+                           placeholder="Sanción">
+                </div>
+                <div>
+                    <label>Observaciones</label>
+                    <input type="text"
+                           th:value="${tablaDto.observaciones}"
+                           placeholder="Observaciones">
+                </div>
+            </div>
+
+            <h3>Validación</h3>
+            <div class="two-cols">
+                <div>
+                    <label>¿Cumple con los requisitos?</label>
+                    <input th:value="${tablaDto.validacion}"
+                           placeholder="Validación">
+                </div>
+
+                <!-- Link genérico para firmar documento -->
+                <div>
+                    <label>Firmar</label>
+                    <a class="btn-approve"
+                       th:href="@{/{departamento}/Constancia/{id}(
+                                    departamento=${departamento},
+                                    id=${tablaDto.docente_id},
+                                    solicitudId=${solicitudId}
+                                )}"
+                       target="_blank">
+                        Documento
+                    </a>
+                </div>
+            </div>
+
+            <!-- BOTONES APROBAR / RECHAZAR POR ÁREA -->
+            <div class="buttons" th:if="${solicitudId != null}">
+                <form th:action="@{/{departamento}/Solicitud/{id}/aprobar(
+                                     departamento=${departamento},
+                                     id=${solicitudId}
+                                   )}"
+                      method="post"
+                      style="display:inline;">
+                    <button type="submit" class="btn-approve">Aprobar</button>
+                </form>
+
+                <form th:action="@{/{departamento}/Solicitud/{id}/rechazar(
+                                     departamento=${departamento},
+                                     id=${solicitudId}
+                                   )}"
+                      method="post"
+                      style="display:inline;">
+                    <button type="submit" class="btn-reject">Rechazar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MENSAJE CUANDO NO HAY INFORMACIÓN -->
+<div class="container" th:if="${tablaDto == null}">
+    <p>No se encontró información para el docente seleccionado.</p>
+</div>
+
+</body>
+</html>
+
+

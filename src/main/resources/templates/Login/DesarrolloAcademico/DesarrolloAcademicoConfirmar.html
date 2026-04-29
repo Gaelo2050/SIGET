@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGET - Desarrollo Académico</title>
+    <link rel="stylesheet" th:href="@{/css/stylesRHConfirmar.css}">
+    <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+</head>
+<body>
+
+<!-- Encabezado -->
+<div th:replace="~{fragments/header :: encabezado('DesarrolloAcademico')}"></div>
+
+<!-- Menú de navegación -->
+<div th:replace="~{fragments/menu-navegacion :: menu-secciones('DesarrolloAcademico', 'evaluar')}"></div>
+
+<div class="container" th:if="${TablaDesarrolloDto != null}">
+
+    <div class="tabs">
+        <button class="tab active">Información Personal</button>
+    </div>
+
+    <div class="content">
+        <!-- Columna Izquierda: info del docente -->
+        <div class="left-panel">
+            <h3>Información Docente</h3>
+
+            <div class="two-cols">
+                <div>
+                    <label>Nombre</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.nombre}"
+                           placeholder="Nombre completo">
+                </div>
+                <div>
+                    <label>Correo institucional</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.correo}"
+                           placeholder="Correo">
+                </div>
+            </div>
+
+            <div class="two-cols">
+                <div>
+                    <label>RFC</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.rfc}"
+                           placeholder="RFC">
+                </div>
+                <div>
+                    <label>CURP</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.curp}"
+                           placeholder="CURP">
+                </div>
+            </div>
+
+            <div class="two-cols">
+                <div>
+                    <label>Vigencia docente</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.vigenciaDocente}"
+                           placeholder="Vigencia del nombramiento">
+                </div>
+                <div>
+                    <!-- espacio libre por si después quieres otro dato -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: info de la BD y validación -->
+        <div class="right-panel">
+            <h3>Información de la BD</h3>
+
+            <div class="two-cols">
+                <div>
+                    <label>Categoría</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.categoria}"
+                           placeholder="Categoría">
+                </div>
+                <div>
+                    <label>Estatus Nombramiento</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.estatusNombramiento}"
+                           placeholder="Estatus del nombramiento">
+                </div>
+            </div>
+
+            <div class="two-cols">
+                <div>
+                    <label>Porcentaje asistencia</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.porcentaje}"
+                           placeholder="Porcentaje">
+                </div>
+                <div>
+                    <label>Exclusividad</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.exclusividad}"
+                           placeholder="Exclusividad">
+                </div>
+            </div>
+
+            <div class="two-cols">
+                <div>
+                    <label>Sanción</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.sancion}"
+                           placeholder="Sanción">
+                </div>
+                <div>
+                    <label>Observaciones</label>
+                    <input type="text"
+                           th:value="${TablaDesarrolloDto.observaciones}"
+                           placeholder="Observaciones">
+                </div>
+            </div>
+
+            <h3>Validación</h3>
+            <div class="two-cols">
+                <div>
+                    <label>¿Cumple con los requisitos?</label>
+                    <input th:value="${TablaDesarrolloDto.validacion}"
+                           placeholder="Validación">
+                </div>
+
+                <!-- Link genérico para firmar documento -->
+                <div>
+                    <label>Firmar</label>
+                    <a class="btn-approve"
+                       th:href="@{/{departamento}/Constancia/{id}(departamento=${departamento}, id=${TablaDesarrolloDto.docente_id})}"
+                       target="_blank">
+                        Documento
+                    </a>
+                </div>
+            </div>
+
+            <!-- BOTONES APROBAR / RECHAZAR -->
+            <div class="buttons" th:if="${solicitudId != null}">
+                <form th:action="@{/{departamento}/Solicitud/{id}/aprobar(
+                                        departamento=${departamento},
+                                        id=${solicitudId})}"
+                      method="post"
+                      style="display:inline;">
+                    <button type="submit" class="btn-approve">
+                        Aprobar
+                    </button>
+                </form>
+
+                <form th:action="@{/{departamento}/Solicitud/{id}/rechazar(
+                                        departamento=${departamento},
+                                        id=${solicitudId})}"
+                      method="post"
+                      style="display:inline;">
+                    <button type="submit" class="btn-reject">Rechazar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

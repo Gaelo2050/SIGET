@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="tabla-revisados (revisados)" class="tabla">
+    <table>
+        <thead>
+        <tr>
+            <th>Docente</th>
+            <th>Documento</th>
+            <th>Convocatoria</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rev : ${revisados}">
+            <!-- nombreDocente -->
+            <td th:text="${rev.nombreDocente}">Nombre docente</td>
+
+
+            <td>
+                <a th:if="${rev.tienePdf}"
+                   th:href="@{'/Rh/Documento/Pdf/' + ${rev.documentoEmitidoId}}"
+                   target="_blank">
+                    PDF
+                </a>
+                <span th:if="${!rev.tienePdf}">Sin PDF</span>
+            </td>
+
+            <!-- Convocatoria -->
+            <td th:text="${rev.convocatoria}">ACTUAL</td>
+
+            <!-- Status: estadoSolicitud (APROBADO / RECHAZADO) -->
+            <td th:text="${rev.estadoSolicitud}">APROBADO</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+
+

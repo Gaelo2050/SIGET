@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Carta de Exclusividad Laboral</title>
+
+  <style>
+    body {
+      font-family: "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 50px 70px;
+      text-align: justify;
+    }
+
+    .fecha {
+      text-align: right;
+      font-style: italic;
+      margin-bottom: 40px;
+    }
+
+    .titulo-principal {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 20px;
+    }
+
+    .titulo-sec {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    .firma-block {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .firma-canvas-wrapper {
+      border: 1px solid #ccc;
+      width: 320px;
+      height: 150px;
+      margin: 10px auto 6px auto;
+    }
+
+    .nombre-docente {
+      text-align: center;
+      font-weight: bold;
+      margin-top: -10px;
+    }
+
+    .subtexto {
+      text-align: center;
+      font-size: 14px;
+      margin-top: -5px;
+    }
+
+    .nota {
+      margin-top: 60px;
+      font-size: 12px;
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="fecha">
+  Culiacán, Sinaloa a
+  <span th:text="${fechaActualDia}">03</span>
+  de <span th:text="${fechaActualMesLargo}">diciembre</span>
+  de <span th:text="${fechaActualAnio}">2025</span>
+</div>
+
+<div class="titulo-principal">
+  CARTA DE EXCLUSIVIDAD LABORAL
+</div>
+
+<div class="titulo-sec">
+  DOCENTES CON PLAZA DE TIEMPO COMPLETO
+</div>
+
+<p>
+  El (La) que suscribe
+  <strong><span th:text="${exclusividad.nombreDocente}">JUAN PÉREZ LÓPEZ</span></strong>
+  con filiación:
+  <strong><span th:text="${exclusividad.filiacion}">PEGJ1323234</span></strong>,
+  Docente de tiempo completo, con clave presupuestal:
+  <strong><span th:text="${exclusividad.clavePresupuestal}">110071402 E381500.0100489</span></strong>,
+  por medio de este documento manifiesto <strong>MI COMPROMISO</strong> con el Tecnológico Nacional de México,
+  campus <strong>INSTITUTO TECNOLÓGICO DE CULIACÁN</strong> declaro que en caso de haber laborado en otra(s)
+  institución(es) pública(s) o federal(es), la jornada no excedió las 12 horas-semana-mes durante el período a evaluar
+  del estímulo, y en caso de estar laborando actualmente en otra(s) institución(es), la jornada no excederá las 12
+  horas-semana-mes y los horarios establecidos para el desempeño de las mismas, por lo que autorizo que se revise con
+  el departamento de recursos humanos, la compatibilidad de horarios de mi institución de adscripción.
+</p>
+
+<p>
+  Asimismo, manifiesto mi disposición para realizar las actividades propias de la Educación Superior Tecnológica
+  enfocadas a satisfacer las necesidades de la dedicación, la calidad en el desempeño y permanencia en las actividades
+  de la docencia, que la autoridad correspondiente de mi institución me encomiende y podré realizar estudios de
+  posgrado siempre y cuando estas actividades sean compatibles con la carga horaria reglamentaria asignada, en el
+  entendido de que en todos los productos derivados de mis actividades como profesor de tiempo completo de la
+  institución, tales como: patentes, modelos de utilidad, derechos de autor, publicaciones en revistas, congresos y libros,
+  mencionaré mi adscripción al Tecnológico Nacional de México, excepto con autorización por escrito por el TecNM.
+  Adicionalmente me comprometo a no incurrir en conflicto de intereses.
+</p>
+
+<p>
+  En caso de que se me compruebe la <strong>NO EXCLUSIVIDAD LABORAL</strong>, me haré acreedor(a) a la aplicación
+  de las sanciones correspondientes de la normatividad vigente y perderé de manera permanente el derecho a participar
+  en el Programa de Estímulos al Desempeño del Personal Docente.
+</p>
+
+<!-- FIRMA / FIRMA DIGITAL -->
+<div class="firma-block">
+  <!-- Si NO está firmado: canvas -->
+  <div th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+    <p style="text-align:center; font-weight:bold;">Firma del docente</p>
+    <p style="font-size: 13px;">
+      Dibuja la firma en el recuadro y luego presiona <strong>Guardar firma</strong>.
+    </p>
+
+    <form th:action="@{/Rh/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+          method="post"
+          id="firma-form">
+
+      <div class="firma-canvas-wrapper">
+        <canvas id="signature-pad" style="width:100%; height:100%;"></canvas>
+      </div>
+
+      <input type="hidden" name="firma" id="firma-input"/>
+
+      <button type="button" id="clear-btn">Limpiar</button>
+      <button type="button" id="save-btn">Guardar firma</button>
+    </form>
+  </div>
+
+  <!-- Si YA está firmado: mostrar firma guardada -->
+  <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}">
+    <p style="font-weight:bold;">Documento firmado electrónicamente</p>
+    <p style="font-size: 13px;">
+      Firma registrada el
+      <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+        01/01/2025 12:00
+      </span>.
+    </p>
+
+    <img th:src="'data:image/png;base64,' + ${documentoEmitido.firmaBase64}"
+         alt="Firma registrada"
+         style="height:180px; margin-bottom:-20px; display:block; margin-left:auto; margin-right:auto;"/>
+  </div>
+</div>
+
+<div class="nombre-docente">
+  <span th:text="${exclusividad.nombreDocente}">JUAN PÉREZ LÓPEZ</span>
+</div>
+<div class="subtexto">
+  Docente
+</div>
+
+<div class="nota">
+  1.- Artículo 8 de los Lineamientos para la Operación del Programa de Estímulos al Desempeño del Personal Docente
+  para los Institutos Tecnológicos Federales y Centros 2025.
+</div>
+
+<!-- Script SignaturePad solo si NO está firmado -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+  const canvas   = document.getElementById('signature-pad');
+  const clearBtn = document.getElementById('clear-btn');
+  const saveBtn  = document.getElementById('save-btn');
+  const firmaInp = document.getElementById('firma-input');
+  const form     = document.getElementById('firma-form');
+
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(255,255,255,0)',
+    penColor: 'black'
+  });
+
+  clearBtn.addEventListener('click', () => {
+    signaturePad.clear();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (signaturePad.isEmpty()) {
+      alert('Por favor dibuja la firma antes de guardar.');
+      return;
+    }
+    const dataUrl = signaturePad.toDataURL('image/png');
+    firmaInp.value = dataUrl;
+    form.submit();
+  });
+</script>
+
+</body>
+</html>

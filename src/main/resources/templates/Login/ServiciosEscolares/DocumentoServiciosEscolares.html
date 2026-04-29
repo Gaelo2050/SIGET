@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Constancia</title>
+
+<style>
+    body {
+        margin: 40px 55px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
+
+    /* ENCABEZADO */
+    .header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .header img {
+        height: 150px;
+    }
+
+    /* DATOS DERECHA */
+    .datos-derecha {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    /* TÍTULO CENTRAL */
+    .titulo-central {
+        margin-top: 50px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: left;
+        line-height: 1.4;
+    }
+
+    /* PÁRRAFOS */
+    p {
+        text-align: justify;
+        line-height: 1.4;
+    }
+
+    /* TABLA */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+        font-size: 13px;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 4px 6px;
+        text-align: center;
+    }
+
+    /* FIRMA */
+    .firma {
+        margin-top: 60px;
+        font-weight: bold;
+        line-height: 1.4;
+    }
+
+    /* PIE CON LOGOS */
+    .logos-pie {
+        width: 100%;
+        margin-top: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logos-pie img {
+        height: 55px;
+    }
+
+    .footer-texto {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 12px;
+        line-height: 1.3;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- ENCABEZADO -->
+<div class="header">
+    <img th:src="@{/img/DocRh.jpg}" alt="Educación - SEP" class="logo sep" />
+    <img th:src="@{/img/DocRh2.jpg}" alt="Instituto Tecnológico de Culiacán" class="logo itc" />
+</div>
+
+<!-- DATOS DERECHA -->
+<div class="datos-derecha">
+    Instituto Tecnológico de Culiacán<br>
+    Depto. de Servicios Escolares<br>
+    <strong>Asunto:</strong> Constancia.
+</div>
+
+<!-- TÍTULO PRINCIPAL -->
+<div class="titulo-central">
+    COMISIÓN DE EVALUACIÓN DEL TECNM<br>
+    PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE<br>
+    DE LOS INSTITUTOS TECNOLÓGICOS FEDERALES Y CENTROS<br>
+    P R E S E N T E.-
+</div>
+
+<br>
+
+<p>
+La que suscribe, hace constar que según registros que existen en el archivo escolar, el/la C. 
+<strong th:text="${TablaServiciosDto.nombre}"></strong>, impartió las siguientes materias
+durante los Periodos Enero-Junio y Agosto-Diciembre del año 2024:
+</p>
+
+<!-- TABLA EXACTA -->
+<table>
+    <tr>
+        <th>PERIODO</th>
+        <th>NIVEL</th>
+        <th>CLAVE DE LA MATERIA</th>
+        <th>NOMBRE DE LA MATERIA</th>
+        <th>ALUMNOS ATENDIDOS</th>
+    </tr>
+
+    <tr th:each="materia : ${materias}">
+        <td th:text="${materia.periodo}"></td>
+        <td th:text="${materia.nivel}"></td>
+        <td th:text="${materia.clave}"></td>
+        <td th:text="${materia.nombre}"></td>
+        <td th:text="${materia.alumnos}"></td>
+    </tr>
+
+    <tr>
+        <td colspan="4" style="text-align:right; font-weight:bold;">Total</td>
+        <td><strong th:text="${#lists.isEmpty(materias) ? 0 : #aggregates.sum(materias.![alumnos])}">242</strong></td>
+    </tr>
+</table>
+
+<br>
+
+<p>
+Se extiende la presente, en la ciudad de Culiacán, Sinaloa, a los nueve días del mes de junio de dos mil veinticinco,
+para los fines que más convengan al interesado.
+</p>
+
+<!-- FIRMA -->
+<div class="firma">
+    A T E N T A M E N T E<br><br>
+
+    <!-- Si YA está firmado, mostrar la imagen de la firma -->
+    <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}">
+        <img th:if="${documentoEmitido.firmaBase64 != null}"
+             th:src="${'data:image/png;base64,' + documentoEmitido.firmaBase64}"
+             alt="Firma electrónica Servicios Escolares"
+             style="width:220px; height:auto; display:block; margin:0 auto 5px auto;" />
+    </div>
+
+    <!-- Si NO está firmado, mostrar el canvas tipo paint -->
+    <div th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+        <p style="text-align:center; margin-bottom:5px;">
+            Dibuje aquí la firma del área:
+        </p>
+
+        <canvas id="signature-pad"
+                style="border:1px solid #000; width:250px; height:120px; display:block; margin:0 auto 5px auto;">
+        </canvas>
+
+        <div style="text-align:center; margin-top:5px;">
+            <button type="button" id="clear-btn">Limpiar</button>
+            <button type="button" id="save-btn">Guardar firma</button>
+        </div>
+
+        <!-- Formulario oculto para enviar la firma al backend -->
+        <form th:action="@{/ServiciosEscolares/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+              method="post"
+              id="firma-form">
+            <input type="hidden" name="firma" id="firma-input">
+        </form>
+    </div>
+
+    Dinorah García<br>
+    JEFA DEL DEPARTAMENTO DE SERVICIOS ESCOLARES
+
+    <!-- Leyenda de firma electrónica -->
+    <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}"
+         style="text-align:center; font-size:11px; margin-top:4px;">
+        Firmado electrónicamente por el área de Servicios Escolares
+        el
+        <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+            28/11/2025 10:00
+        </span>.
+    </div>
+</div>
+
+<!-- PIE DE PÁGINA -->
+<div class="logos-pie">
+    <img src="logo_mujer_2025.png">
+    <img src="logos_circulares.png">
+</div>
+
+<div class="footer-texto">
+    Juan de Dios Bátiz 310 Pte. Col. Guadalupe C.P. 80220 · Culiacán, Sinaloa · Tel. 667-454-0100<br>
+    tecnm.mx · www.culiacan.tecnm.mx
+</div>
+
+<!-- Script de firma digital -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+  const canvas   = document.getElementById('signature-pad');
+  const clearBtn = document.getElementById('clear-btn');
+  const saveBtn  = document.getElementById('save-btn');
+  const firmaInp = document.getElementById('firma-input');
+  const form     = document.getElementById('firma-form');
+
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(255,255,255,0)',
+    penColor: 'black'
+  });
+
+  clearBtn.addEventListener('click', () => {
+    signaturePad.clear();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (signaturePad.isEmpty()) {
+      alert('Por favor dibuja la firma antes de guardar.');
+      return;
+    }
+
+    const dataUrl = signaturePad.toDataURL('image/png');
+    firmaInp.value = dataUrl;
+    form.submit();
+  });
+</script>
+
+</body>
+</html>

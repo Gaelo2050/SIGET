@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Constancia de actividades</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Times New Roman", serif;
+      font-size: 12pt;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    .page {
+      width: 19cm;
+      min-height: 27cm;
+      margin: 1.5cm auto;
+      padding: 2.5cm 2.5cm 2cm 2.5cm;
+      background: #ffffff;
+      box-shadow: 0 0 6px rgba(0,0,0,0.15);
+      text-align: justify;
+      line-height: 1.4;
+    }
+
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .header-table td {
+      vertical-align: middle;
+    }
+
+    .header-left img,
+    .header-right img {
+      max-height: 70px;
+    }
+
+    .center-title {
+      text-align: center;
+      font-weight: bold;
+      font-size: 11pt;
+    }
+
+    .fecha {
+      text-align: right;
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+
+    .texto-justificado {
+      text-align: justify;
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
+    .negritas {
+      font-weight: bold;
+    }
+
+    .firma-doble {
+      margin-top: 55px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .firma-doble td {
+      width: 50%;
+      vertical-align: top;
+      padding-top: 40px;
+    }
+
+    .pie {
+      margin-top: 35px;
+      font-size: 9pt;
+      text-align: left;
+    }
+
+    /* Bloque firma electrónica */
+    .firma-block {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px dashed #999;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .firma-canvas-wrapper {
+      border: 1px solid #ccc;
+      width: 320px;
+      height: 150px;
+      margin: 10px auto 6px auto;
+    }
+
+    .firma-img {
+      display: block;
+      margin: 10px auto 0 auto;
+      max-width: 250px;
+      height: auto;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 4px;
+      border: 1px solid #1b6ec2;
+      background: #1b6ec2;
+      color: #fff;
+      text-decoration: none;
+      font-size: 10pt;
+      cursor: pointer;
+      margin: 0 3px;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      border-color: #6c757d;
+    }
+
+    .btn-danger {
+      background: #c82333;
+      border-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ENCABEZADO CON LOGOS -->
+  <table class="header-table">
+    <tr>
+      <td class="header-left" style="width: 30%;">
+        <img th:src="@{/img/logo_sep.png}" alt="SEP">
+      </td>
+      <td class="center-title" style="width: 40%;">
+        <div>Secretaría de Educación Pública</div>
+        <div th:text="${nombreInstituto}">
+          Instituto Tecnológico de Culiacán
+        </div>
+      </td>
+      <td class="header-right" style="width: 30%; text-align: right;">
+        <img th:src="@{/img/logo_itc.png}" alt="TecNM">
+      </td>
+    </tr>
+  </table>
+
+  <!-- FECHA, OFICIO, ASUNTO -->
+  <p class="fecha">
+    <span th:text="${ciudad}">
+      Culiacán, Sinaloa
+    </span>,
+    <span th:text="${fechaOficio}">
+      18/junio/2025
+    </span><br>
+    OFICIO No.:
+    <span th:text="${numeroOficio}">
+      CI-03/020/2025
+    </span><br>
+    ASUNTO:
+    <span th:text="${asunto}">
+      Constancia
+    </span>
+  </p>
+
+  <p class="texto-justificado">
+    COMISIÓN DE EVALUACIÓN DEL<br>
+    PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE<br>
+    PARA LOS INSTITUTOS TECNOLÓGICOS FEDERALES Y CENTROS.<br>
+    PRESENTE
+  </p>
+
+  <p class="texto-justificado">
+    Por medio del presente se hace constar que el (la) C.
+    <span class="negritas" th:text="${nombreDocente}">
+      Juan Pérez Gómez
+    </span>,
+    cumplió satisfactoriamente en la participación de las actividades realizadas como
+    <span th:text="${rolActividad}">
+      monitor de cine
+    </span>
+    en el semestre
+    <span th:text="${semestre}">
+      enero-junio
+    </span>
+    de
+    <span th:text="${anioSemestre}">
+      2024
+    </span>
+    con número de dictamen
+    <span class="negritas" th:text="${numeroDictamen}">
+      #DCINFTALCIN2241
+    </span>,
+    para la obtención de créditos complementarios a cargo del centro de información, atendiendo un total de
+    <span class="negritas" th:text="${totalAlumnos}">
+      23
+    </span>
+    alumnos que, a su vez,
+    <span class="negritas" th:text="${alumnosAcreditados}">
+      19
+    </span>
+    obtuvieron el crédito complementario, los cuales entregaron sus actividades en tiempo y forma.
+  </p>
+
+  <p class="texto-justificado">
+    Se extiende la presente en la ciudad de Culiacán, Sinaloa, a los
+    <span th:text="${diaOficio}">
+      dieciocho
+    </span>
+    días del mes de
+    <span th:text="${mesOficio}">
+      junio
+    </span>
+    del año
+    <span th:text="${anioOficio}">
+      dos mil veinticinco
+    </span>.
+  </p>
+
+  <p style="text-align:center; margin-top:25px;">
+    <span class="negritas">ATENTAMENTE</span><br>
+    Excelencia en Educación Tecnológica®
+  </p>
+
+  <table class="firma-doble">
+    <tr>
+      <td>
+        <span class="negritas" th:text="${nombreJefeCentroInfo}">
+          JESÚS RAMÓN FAVELA BUENO
+        </span><br>
+        JEFE DEL CENTRO DE INFORMACIÓN
+      </td>
+      <td>
+        <span class="negritas" th:text="${nombreResponsableAcad}">
+          BERTHA LUCÍA PATRON ARELLANO
+        </span><br>
+        RESPONSABLE DEL DESPACHO DE LA<br>
+        SUBDIRECCIÓN ACADÉMICA
+      </td>
+    </tr>
+  </table>
+
+  <div class="pie">
+    <span th:text="${leyendaPie}">
+      2025, Año de la Mujer Indígena
+    </span>
+  </div>
+
+  <!-- ================== BLOQUE FIRMA ELECTRÓNICA (DESARROLLO ACADÉMICO) ================== -->
+  <div class="firma-block" th:if="${documentoEmitido != null}">
+    <!-- Si NO está firmado: canvas para firmar -->
+    <div th:if="${!documentoEmitido.firmadoArea}">
+      <p style="font-weight:bold;">Firma del Departamento de Desarrollo Académico</p>
+      <p style="font-size: 13px;">
+        Dibuja la firma en el recuadro y luego presiona <strong>Guardar firma</strong>.
+      </p>
+
+      <form th:action="@{/DesarrolloAcademico/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+            method="post"
+            id="firma-form">
+
+        <div class="firma-canvas-wrapper">
+          <canvas id="signature-pad" style="width:100%; height:100%;"></canvas>
+        </div>
+
+        <input type="hidden" name="firma" id="firma-input"/>
+
+        <button type="button" class="btn btn-secondary" id="clear-btn">Limpiar</button>
+        <button type="button" class="btn" id="save-btn">Guardar firma</button>
+      </form>
+    </div>
+
+    <!-- Si YA está firmado: mostrar firma y botón de PDF -->
+    <div th:if="${documentoEmitido.firmadoArea}">
+      <p style="font-weight:bold;">Documento firmado electrónicamente</p>
+      <p style="font-size: 13px;">
+        Firmado el
+        <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+          01/01/2025 12:00
+        </span>
+        por el Departamento de Desarrollo Académico.
+      </p>
+
+      <img class="firma-img"
+           th:src="'data:image/png;base64,' + ${documentoEmitido.firmaBase64}"
+           alt="Firma registrada"/>
+
+      <div style="margin-top:10px;">
+        <a class="btn"
+           th:href="@{/DesarrolloAcademico/Documento/Pdf/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+           target="_blank">
+          Descargar PDF
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Script SignaturePad solo si NO está firmado -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+  const canvas   = document.getElementById('signature-pad');
+  const clearBtn = document.getElementById('clear-btn');
+  const saveBtn  = document.getElementById('save-btn');
+  const firmaInp = document.getElementById('firma-input');
+  const form     = document.getElementById('firma-form');
+
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(255,255,255,0)',
+    penColor: 'black'
+  });
+
+  clearBtn.addEventListener('click', () => {
+    signaturePad.clear();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (signaturePad.isEmpty()) {
+      alert('Por favor dibuja la firma antes de guardar.');
+      return;
+    }
+    const dataUrl = signaturePad.toDataURL('image/png');
+    firmaInp.value = dataUrl;
+    form.submit();
+  });
+</script>
+
+</body>
+</html>

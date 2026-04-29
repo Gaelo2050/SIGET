@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Liberación de actividades académicas</title>
+  <link rel="stylesheet" th:href="@{/css/liberacionAcademicas.css}">
+</head>
+<body>
+<div class="documento">
+  <header class="encabezado">
+    <h2>INSTITUTO TECNOLÓGICO DE CULIACÁN</h2>
+    <h3>DEPARTAMENTO DE RECURSOS HUMANOS</h3>
+    <hr>
+  </header>
+
+  <section class="titulo">
+    <h2 style="text-align:center;">CONSTANCIA DE LIBERACIÓN DE ACTIVIDADES ACADÉMICAS</h2>
+  </section>
+
+  <section class="cuerpo">
+    <p>
+      Se hace constar que el(la) C.
+      <strong><span th:text="${docente.nombreCompleto}">Nombre del docente</span></strong>,
+      con RFC <strong><span th:text="${docente.rfc}">XXXX000000</span></strong>,
+      se encuentra <strong>liberado(a) de actividades académicas frente a grupo</strong>
+      en el periodo:
+    </p>
+
+    <p>
+      <strong><span th:text="${liberacion.periodoNombre}">Agosto - Diciembre 2025</span></strong>,
+      de acuerdo con la siguiente justificación:
+      <strong><span th:text="${liberacion.motivo}">Desarrollo de proyecto académico / comisión institucional</span></strong>.
+    </p>
+
+    <p>
+      Durante este periodo el(la) docente continuará adscrito(a) al departamento de
+      <strong><span th:text="${docente.departamento}">Sistemas y Computación</span></strong>,
+      realizando actividades asignadas por la Dirección Académica y Recursos Humanos.
+    </p>
+
+    <p>
+      Se expide la presente constancia para los fines administrativos correspondientes,
+      en Culiacán, Sinaloa, a
+      <span th:text="${fechaActualDia}">01</span> de
+      <span th:text="${fechaActualMesLargo}">diciembre</span> de
+      <span th:text="${fechaActualAnio}">2025</span>.
+    </p>
+  </section>
+
+  <footer class="firmas" style="margin-top:60px;">
+    <table style="width:100%; text-align:center;">
+      <tr>
+        <td>
+          ________________________________<br>
+          <span th:text="${rh.nombreEncargado}">Jefe de Recursos Humanos</span>
+        </td>
+        <td>
+          ________________________________<br>
+          <span th:text="${direccion.academica}">Director(a) Académico(a)</span>
+        </td>
+      </tr>
+    </table>
+  </footer>
+</div>
+</body>
+</html>

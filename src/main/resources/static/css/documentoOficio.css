@@ -1,0 +1,103 @@
+/* documentoOficio.css */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: 40px;
+    color: #222;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #0b4f8a;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-left img {
+    height: 60px;
+}
+
+.header-left .inst {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.header-right {
+    text-align: right;
+    font-size: 12px;
+}
+
+.doc-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin: 20px 0;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 4px;
+    text-decoration: underline;
+    font-size: 13px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.data-table td {
+    padding: 4px 6px;
+    vertical-align: top;
+}
+
+.data-table td.label {
+    width: 30%;
+    font-weight: 600;
+}
+
+p {
+    font-size: 12px;
+    text-align: justify;
+    margin: 8px 0;
+}
+
+.signature-block {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.signature-line {
+    margin-top: 60px;
+    border-top: 1px solid #000;
+    width: 260px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 4px;
+}
+
+.footer {
+    margin-top: 30px;
+    font-size: 10px;
+    text-align: center;
+    color: #666;
+}

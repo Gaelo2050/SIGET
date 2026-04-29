@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<form th:fragment="form-quejas(titulo, accion, tipoSistema)"
+      th:action="${accion}"
+      method="post"
+      enctype="multipart/form-data">
+
+    <h2 th:text="${titulo}">Quejas</h2>
+
+    <input type="hidden" name="tipoSistema" th:value="${tipoSistema}" />
+
+    <label for="nombre">Nombre completo:</label><br>
+    <input type="text" id="nombre" name="nombre" required><br><br>
+
+    <label for="email">Correo electrónico:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="asunto">Asunto:</label><br>
+    <input type="text" id="asunto" name="asunto" required><br><br>
+
+    <label for="descripcion">Descripción de la queja:</label><br>
+    <textarea id="descripcion" name="descripcion" rows="5" required></textarea><br><br>
+
+    <label for="archivo">Adjuntar evidencia (opcional):</label><br>
+    <input type="file" id="archivo" name="archivo" accept=".jpg,.png,.pdf"><br><br>
+
+    <button type="submit">Enviar</button>
+</form>
+
+</body>
+</html>

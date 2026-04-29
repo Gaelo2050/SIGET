@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" th:href="@{/css/Styles.css}">
+    <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+    <title>Login</title>
+</head>
+<body>
+<div class="formulario">
+    <!-- LADO IZQUIERDO -->
+    <section class="lado-izq">
+        <div class="contenido">
+            <img th:src="@{/img/siget_logo_login.png}" alt="Logo de la aplicación" class="logo"/>
+
+            <h2 class="titulo">Bienvenido de vuelta</h2>
+            <h3 class="subtitulo">Ingresa tu cuenta para continuar</h3>
+
+            <!-- FORM: envía a POST /login -->
+            <form class="card" th:action="@{/login/inicio}" method="post" autocomplete="on">
+                <!-- Usuario -->
+                <div class="form-group">
+                    <label for="username">Nombre de usuario</label>
+                    <input
+                            type="text"
+                            id="username"
+                            name="usuario"
+                            placeholder="Usuario"
+                            th:value="${usuario}"
+                            required
+                            autocomplete="username">
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input
+                            type="password"
+                            id="password"
+                            name="contrasena"
+                            placeholder="********"
+                            required
+                            autocomplete="current-password">
+                </div>
+
+                <!-- Mensaje de error-->
+                <div th:if="${error}" style="color:#b91c1c; font-weight:600; font-size:14px;">
+                    <span th:text="${error}"></span>
+                </div>
+
+
+                <button type="submit" class="btn">Ingresar</button>
+            </form>
+        </div>
+    </section>
+
+
+    <section class="lado-der">
+        <div class="info-der">
+            <h2 class="titulo-der">SIGET</h2>
+            <p class="texto-der">
+                SIGET es tu plataforma para gestionar documentos y trámites escolares fácilmente.
+            </p>
+            <ul class="lista-der">
+                <li>* Solicita documentos fácilmente</li>
+                <li>* Descárgalos en minutos</li>
+                <li>* Recibe avisos cuando estén listos</li>
+            </ul>
+        </div>
+    </section>
+</div>
+</body>
+</html>
+

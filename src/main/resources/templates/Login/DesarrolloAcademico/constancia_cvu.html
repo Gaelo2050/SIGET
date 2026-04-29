@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Constancia CVU</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: "Times New Roman", serif;
+      font-size: 12pt;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    .page {
+      width: 19cm;
+      min-height: 27cm;
+      margin: 1.5cm auto;
+      padding: 2.5cm 2.5cm 2cm 2.5cm;
+      background: #ffffff;
+      box-shadow: 0 0 6px rgba(0,0,0,0.15);
+    }
+
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .header-table td {
+      vertical-align: middle;
+    }
+    .header-left img,
+    .header-right img {
+      max-height: 70px;
+    }
+    .center-title {
+      text-align: center;
+      font-weight: bold;
+      font-size: 11pt;
+    }
+    .fecha {
+      text-align: right;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .texto-justificado {
+      text-align: justify;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    .titulo-bloque {
+      text-align: center;
+      margin-top: 25px;
+      margin-bottom: 25px;
+      font-weight: bold;
+    }
+    .firma {
+      margin-top: 40px;
+      text-align: center;
+    }
+    .firma span {
+      display: block;
+    }
+    .negritas {
+      font-weight: bold;
+    }
+    .pie {
+      margin-top: 35px;
+      font-size: 9pt;
+      text-align: left;
+    }
+    a {
+      color: #000000;
+      text-decoration: underline;
+    }
+
+    /* Bloque firma electrónica */
+    .firma-block {
+      margin-top: 35px;
+      padding-top: 15px;
+      border-top: 1px dashed #999;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .firma-canvas-wrapper {
+      border: 1px solid #ccc;
+      width: 320px;
+      height: 150px;
+      margin: 10px auto 6px auto;
+    }
+
+    .firma-img {
+      display: block;
+      margin: 10px auto 0 auto;
+      max-width: 250px;
+      height: auto;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 4px;
+      border: 1px solid #1b6ec2;
+      background: #1b6ec2;
+      color: #fff;
+      text-decoration: none;
+      font-size: 10pt;
+      cursor: pointer;
+      margin: 0 3px;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      border-color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ENCABEZADO CON LOGOS -->
+  <table class="header-table">
+    <tr>
+      <td class="header-left" style="width: 30%;">
+        <img th:src="@{/img/logo_sep.png}" alt="SEP">
+      </td>
+      <td class="center-title" style="width: 40%;">
+        <div>Secretaría de Educación Pública</div>
+        <div th:text="${nombreInstituto}">Instituto Tecnológico de Culiacán</div>
+      </td>
+      <td class="header-right" style="width: 30%; text-align: right;">
+        <img th:src="@{/img/logo_itc.png}" alt="TecNM">
+      </td>
+    </tr>
+  </table>
+
+  <!-- FECHA Y DATOS DE OFICIO -->
+  <p class="fecha">
+    <span th:text="${ciudad}">Culiacán, Sinaloa</span>,
+    <span th:text="${fechaOficio}">02/DICIEMBRE/2025</span><br>
+    <span>DPTO. DE DESARROLLO ACADÉMICO</span><br>
+    Núm. de Oficio:
+    <span th:text="${numeroOficio}">DDA-476-06-2025</span>
+  </p>
+
+  <p class="texto-justificado">
+    H. COMISIÓN DICTAMINADORA DEL EDD<br>
+    PRESENTE
+  </p>
+
+  <p class="texto-justificado">
+    La que suscribe
+    <span class="negritas" th:text="${nombreJefaDepartamento}">
+      MC. María Hidaelia Sánchez López
+    </span>,
+    Jefa del Departamento de Desarrollo Académico del
+    <span th:text="${nombreInstituto}">
+      Instituto Tecnológico de Culiacán
+    </span>.
+  </p>
+
+  <p class="titulo-bloque">
+    HACE CONSTAR
+  </p>
+
+  <p class="texto-justificado">
+    Que el (la) C.
+    <span class="negritas" th:text="${nombreDocente}">
+      Pérez Gómez Juan
+    </span>
+    cuenta con el registro
+    <span class="negritas" th:text="${registroCvu}">
+      IT19B258
+    </span>,
+    así como la actualización de su Curriculum Vitae (CVU-TecNM) en el portal
+    <a href="https://cvu.dpii.tecnm.mx">https://cvu.dpii.tecnm.mx</a>
+    correspondiente al año
+    <span class="negritas" th:text="${anioCvu}">
+      2025
+    </span>,
+    entregando en formato electrónico su CVU en extenso al Departamento de Desarrollo Académico.
+  </p>
+
+  <p class="texto-justificado">
+    A solicitud del interesado y para los fines que al mismo convenga se extiende la presente
+    a los tres días del mes de diciembre del año dos mil veinticinco.
+  </p>
+
+  <div class="firma">
+    <span class="negritas">ATENTAMENTE</span>
+    <span>Excelencia en Educación Tecnológica®</span>
+    <br><br><br>
+    <span class="negritas" th:text="${nombreJefaDepartamento}">
+      MARÍA HIDAELIA SÁNCHEZ LÓPEZ
+    </span>
+    <span>JEFA DEL DPTO. DE DESARROLLO ACADÉMICO</span>
+  </div>
+
+  <div class="pie">
+    <span th:text="${leyendaPie}">
+      2025, Año de la Mujer Indígena
+    </span>
+  </div>
+
+  <!-- ========== FIRMA ELECTRÓNICA DESARROLLO ACADÉMICO ========== -->
+  <div class="firma-block" th:if="${documentoEmitido != null}">
+    <!-- Si NO está firmado: canvas -->
+    <div th:if="${!documentoEmitido.firmadoArea}">
+      <p style="font-weight:bold;">Firma del Departamento de Desarrollo Académico</p>
+      <p style="font-size: 13px;">
+        Dibuja la firma en el recuadro y luego presiona <strong>Guardar firma</strong>.
+      </p>
+
+      <form th:action="@{/DesarrolloAcademico/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+            method="post"
+            id="firma-form">
+
+        <div class="firma-canvas-wrapper">
+          <canvas id="signature-pad" style="width:100%; height:100%;"></canvas>
+        </div>
+
+        <input type="hidden" name="firma" id="firma-input"/>
+
+        <button type="button" class="btn btn-secondary" id="clear-btn">Limpiar</button>
+        <button type="button" class="btn" id="save-btn">Guardar firma</button>
+      </form>
+    </div>
+
+    <!-- Si YA está firmado: mostrar firma y botón de PDF -->
+    <div th:if="${documentoEmitido.firmadoArea}">
+      <p style="font-weight:bold;">Documento firmado electrónicamente</p>
+      <p style="font-size: 13px;">
+        Firmado el
+        <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+          01/01/2025 12:00
+        </span>
+        por el Departamento de Desarrollo Académico.
+      </p>
+
+      <img class="firma-img"
+           th:src="'data:image/png;base64,' + ${documentoEmitido.firmaBase64}"
+           alt="Firma registrada"/>
+
+      <div style="margin-top:10px;">
+        <a class="btn"
+           th:href="@{/DesarrolloAcademico/Documento/Pdf/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+           target="_blank">
+          Descargar PDF
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Script SignaturePad solo si NO está firmado -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+  const canvas   = document.getElementById('signature-pad');
+  const clearBtn = document.getElementById('clear-btn');
+  const saveBtn  = document.getElementById('save-btn');
+  const firmaInp = document.getElementById('firma-input');
+  const form     = document.getElementById('firma-form');
+
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(255,255,255,0)',
+    penColor: 'black'
+  });
+
+  clearBtn.addEventListener('click', () => {
+    signaturePad.clear();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (signaturePad.isEmpty()) {
+      alert('Por favor dibuja la firma antes de guardar.');
+      return;
+    }
+    const dataUrl = signaturePad.toDataURL('image/png');
+    firmaInp.value = dataUrl;
+    form.submit();
+  });
+</script>
+
+</body>
+</html>
+

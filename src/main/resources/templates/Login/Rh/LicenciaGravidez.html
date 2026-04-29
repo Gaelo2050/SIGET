@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Licencia por embarazo / maternidad</title>
+    <link rel="stylesheet" th:href="@{/css/licenciaGravidez.css}">
+</head>
+<body>
+<div class="documento">
+    <header class="encabezado">
+        <h2>INSTITUTO TECNOLÓGICO DE CULIACÁN</h2>
+        <h3>DEPARTAMENTO DE RECURSOS HUMANOS</h3>
+        <hr>
+    </header>
+
+    <section class="titulo">
+        <h2 style="text-align:center;">LICENCIA POR EMBARAZO / MATERNIDAD</h2>
+    </section>
+
+    <section class="cuerpo">
+        <p>
+            Por este medio se hace constar que la C.
+            <strong><span th:text="${docente.nombreCompleto}">Nombre de la docente</span></strong>,
+            con RFC <strong><span th:text="${docente.rfc}">XXXX000000</span></strong> y
+            número de empleado <strong><span th:text="${docente.numeroEmpleado}">12345</span></strong>,
+            quien se desempeña como
+            <strong><span th:text="${docente.puesto}">Profesor de tiempo completo</span></strong>,
+            ha solicitado licencia por embarazo / maternidad.
+        </p>
+
+        <p>
+            La licencia comprende del
+            <strong><span th:text="${licencia.fechaInicio}">2025-03-01</span></strong>
+            al
+            <strong><span th:text="${licencia.fechaFin}">2025-06-01</span></strong>,
+            periodo durante el cual se le autoriza ausentarse de sus actividades académicas y administrativas,
+            conservando sus derechos laborales conforme a la normatividad vigente.
+        </p>
+
+        <p>
+            Se expide la presente para los fines administrativos correspondientes, en Culiacán, Sinaloa, a
+            <span th:text="${fechaActualDia}">01</span> de
+            <span th:text="${fechaActualMesLargo}">diciembre</span> de
+            <span th:text="${fechaActualAnio}">2025</span>.
+        </p>
+    </section>
+
+    <footer class="firmas" style="text-align:center; margin-top:60px;">
+        <p>ATENTAMENTE</p>
+        <br><br><br>
+        <p>__________________________________</p>
+        <p><strong><span th:text="${rh.nombreEncargado}">Nombre de Jefe de RH</span></strong></p>
+        <p>Jefe del Departamento de Recursos Humanos</p>
+    </footer>
+</div>
+</body>
+</html>
+

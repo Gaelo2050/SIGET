@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Talón de Pago</title>
+  <link rel="stylesheet" th:href="@{/css/documentoOficio.css}">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ENCABEZADO -->
+  <div class="header">
+    <div class="header-left">
+      <img th:src="@{/img/logo-tecnm.png}" alt="TecNM">
+      <div class="inst">
+        Tecnológico Nacional de México<br>
+        Instituto Tecnológico de Culiacán
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="periodo"
+           th:text="'Periodo: ' + ${periodoPagado}">
+        Periodo 2025
+      </div>
+      <div class="fecha"
+           th:text="'Fecha: ' + ${#temporals.format(hoy, 'dd/MM/yyyy')}">
+        Fecha: 28/11/2025
+      </div>
+    </div>
+  </div>
+
+  <!-- TÍTULO -->
+  <h2 class="doc-title">TALÓN DE PAGO DEL PROGRAMA DE ESTÍMULOS</h2>
+
+  <!-- DATOS PRINCIPALES -->
+  <table class="data-table">
+    <tr>
+      <td class="label">Nombre del docente:</td>
+      <td th:text="${TablaRhDto.nombre}">Luis Sánchez</td>
+    </tr>
+    <tr>
+      <td class="label">RFC:</td>
+      <td th:text="${TablaRhDto.rfc}">SAML800101ABC</td>
+    </tr>
+    <tr>
+      <td class="label">CURP:</td>
+      <td th:text="${TablaRhDto.curp}">SAML800101HDFRNS09</td>
+    </tr>
+    <tr>
+      <td class="label">Clave presupuestal / plaza:</td>
+      <td th:text="${plaza}">11007402</td>
+    </tr>
+    <tr>
+      <td class="label">Monto mensual del estímulo:</td>
+      <td th:text="${montoMensual}">$0,000.00</td>
+    </tr>
+    <tr>
+      <td class="label">Periodo pagado:</td>
+      <td th:text="${periodoPagado}">Enero–Junio 2025</td>
+    </tr>
+  </table>
+
+  <p>
+    El presente comprobante ampara el pago del estímulo al desempeño del personal
+    docente correspondiente al periodo señalado, de acuerdo con las disposiciones
+    del Programa de Estímulos al Desempeño del Personal Docente del TecNM.
+  </p>
+
+  <!-- FIRMA -->
+  <section class="signature">
+    <div class="att">
+      <strong>ATENTAMENTE</strong>
+      <div class="slogan">Departamento de Recursos Humanos</div>
+    </div>
+
+    <div class="signed">
+
+      <!-- 1) Si YA está firmado, mostramos la imagen de la firma -->
+      <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}">
+        <img th:if="${documentoEmitido.firmaBase64 != null}"
+             th:src="${'data:image/png;base64,' + documentoEmitido.firmaBase64}"
+             alt="Firma electrónica RH"
+             style="width:220px; height:auto; display:block; margin:0 auto 5px auto;" />
+      </div>
+
+      <!-- 2) Si NO está firmado, mostramos el canvas tipo paint -->
+      <div th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+        <p style="text-align:center; margin-bottom:5px;">
+          Dibuje aquí la firma del área:
+        </p>
+
+        <canvas id="signature-pad"
+                style="border:1px solid #000; width:250px; height:120px; display:block; margin:0 auto 5px auto;">
+        </canvas>
+
+        <div style="text-align:center; margin-top:5px;">
+          <button type="button" id="clear-btn">Limpiar</button>
+          <button type="button" id="save-btn">Guardar firma</button>
+        </div>
+
+        <!-- Formulario oculto para enviar la firma al backend -->
+        <form th:action="@{/Rh/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+              method="post"
+              id="firma-form">
+          <input type="hidden" name="firma" id="firma-input">
+        </form>
+      </div>
+
+      <!-- Nombre y cargo  -->
+      <div class="name" th:text="${nombreJefaRH}">LAURA LILIANA BARRAZA CARDENAS</div>
+      <div class="position">JEFA DEL DEPARTAMENTO DE ADMINISTRACIÓN DE RECURSOS HUMANOS</div>
+
+      <!-- Leyenda de firma electrónica -->
+      <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}"
+           style="text-align:center; font-size:11px; margin-top:4px;">
+        Firmado electrónicamente por el área de Recursos Humanos
+        el
+        <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+          28/11/2025 10:00
+        </span>.
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    Documento generado por el Sistema SIGET - RH. Este talón es únicamente de carácter informativo.
+  </div>
+
+</div>
+
+<!-- Script de firma sólo si NO está firmado -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+  const canvas   = document.getElementById('signature-pad');
+  const clearBtn = document.getElementById('clear-btn');
+  const saveBtn  = document.getElementById('save-btn');
+  const firmaInp = document.getElementById('firma-input');
+  const form     = document.getElementById('firma-form');
+
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(255,255,255,0)',
+    penColor: 'black'
+  });
+
+  clearBtn.addEventListener('click', () => {
+    signaturePad.clear();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (signaturePad.isEmpty()) {
+      alert('Por favor dibuja la firma antes de guardar.');
+      return;
+    }
+
+    const dataUrl = signaturePad.toDataURL('image/png');
+    firmaInp.value = dataUrl;
+    form.submit();
+  });
+</script>
+
+</body>
+</html>
+

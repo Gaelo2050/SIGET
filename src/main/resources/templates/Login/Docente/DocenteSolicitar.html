@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGET</title>
+    <link rel="stylesheet" th:href="@{/css/stylesDocenteSolicitar.css}" />
+    <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+</head>
+<body>
+
+<!-- ENCABEZADO -->
+<header class="encabezado">
+    <div class="logo">
+        <img th:src="@{/img/logo.png}" alt="Logo SIGET" />
+    </div>
+
+    <!-- MENÚ CON DETAILS / SUMMARY -->
+    <nav class="menu">
+
+        <!-- NOTIFICACIONES -->
+        <details class="menu-item">
+            <summary>NOTIFICACIONES ⬇</summary>
+            <div class="menu-panel">
+                <p>No hay notificaciones nuevas.</p>
+            </div>
+        </details>
+
+        <!-- QUEJAS -->
+        <details class="menu-item">
+            <summary>QUEJAS ⬇</summary>
+            <div class="menu-panel">
+                <a th:href="@{/Docente/Quejas}">Con SIGET</a>
+                <br>
+                <a th:href="@{/Docente/QuejasAmbarDocente}">Con AMBAR</a>
+            </div>
+        </details>
+
+        <!-- PERFIL -->
+        <details class="menu-item">
+            <summary>PERFIL ⬇</summary>
+            <div class="menu-panel">
+                <p th:text="${usuario.nombrecompleto}">Nombre usuario</p>
+                <p th:text="${usuario.tipo}">Tipo usuario</p>
+                <a th:href="@{/login/logout}" class="btn-cerrar-sesion">Cerrar Sesión</a>
+            </div>
+        </details>
+
+    </nav>
+</header>
+
+<!-- MENSAJES -->
+<div class="mensajes">
+    <p th:if="${mensaje}" th:text="${mensaje}" class="msg-ok"></p>
+    <p th:if="${error}" th:text="${error}" class="msg-error"></p>
+</div>
+
+<!-- CAMBIO DE VISTA -->
+<div class="cambio">
+    <a class="vista" th:href="@{/Docente/Solicitar}">SOLICITAR</a>
+    <a class="vista" th:href="@{/Docente/Confirmado}">REVISADOS</a>
+</div>
+
+<!-- TABLA -->
+<div class="tabla">
+    <table>
+        <thead>
+        <tr>
+            <th>Encargado</th>
+            <th>Área</th>
+            <th>Documento</th>
+            <th>Solicitar</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="docente : ${docentes}">
+            <td th:text="${docente.nombre}">Encargado</td>
+
+
+            <td th:text="${docente.documento}">Área</td>
+
+
+            <td th:text="${docente.area}">Documento</td>
+
+            <td>
+                <form th:action="@{/Docente/Solicitar}" method="post">
+
+                    <input type="hidden" name="areaDestino" th:value="${docente.documento}" />
+
+                    <input type="hidden" name="documentoNombre" th:value="${docente.area}" />
+                    <input type="hidden" name="convocatoria" value="ACTUAL" />
+                    <button type="submit">Solicitar</button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(docentes)}">
+            <td colspan="4">No hay documentos disponibles para solicitar.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

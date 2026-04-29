@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+
+<div th:fragment="tabla-solicitudes(solicitudes, departamento)" class="tabla">
+    <table>
+        <thead>
+        <tr>
+            <th>Docente</th>
+            <th>Documento</th>
+            <th>Convocatoria</th>
+            <th>Verificar</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:if="${#lists.isEmpty(solicitudes)}">
+            <td colspan="4">No hay solicitudes por evaluar.</td>
+        </tr>
+
+
+        <tr th:each="solicitud : ${solicitudes}">
+            <td th:text="${solicitud.nameDocente}">Nombre del docente</td>
+            <td th:text="${solicitud.documentoNombre}">Nombre del documento</td>
+            <td th:text="${solicitud.convocatoria}">Convocatoria</td>
+            <td>
+
+                <a th:href="@{/{departamento}/Confirmado/{id}(
+                                departamento=${departamento},
+                                id=${solicitud.docenteId},
+                                solicitudId=${solicitud.solicitudId}
+                             )}"
+                   class="dropbtn">
+                    Verificar
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Fragmento de menú de navegación entre secciones -->
+<div th:fragment="menu-secciones(departamento, seccionActiva)" class="cambio">
+    <a th:href="@{/{dept}/Evaluar(dept=${departamento})}" 
+       th:classappend="${seccionActiva == 'evaluar'} ? 'active' : ''">
+        EVALUAR
+    </a>
+    <a th:href="@{/{dept}/Revisados(dept=${departamento})}"
+       th:classappend="${seccionActiva == 'revisados'} ? 'active' : ''">
+        REVISADOS
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGET - Administración</title>
+    <link rel="stylesheet" th:href="@{/css/stylesRHConfirmar.css}">
+    <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+</head>
+<body>
+
+<!-- Reutilizando el fragmento de encabezado -->
+<div th:replace="~{fragments/header :: encabezado('Administracion')}"></div>
+
+<!-- Reutilizando el fragmento de menú de navegación -->
+<div th:replace="~{fragments/menu-navegacion :: menu-secciones('Administracion', 'evaluar')}"></div>
+
+<!-- Reutilizando el fragmento de confirmación -->
+<div th:replace="~{fragments/confirmar-info :: confirmar-info(${TablaAdministracionDto}, 'Administracion')}"></div>
+
+</body>
+</html>

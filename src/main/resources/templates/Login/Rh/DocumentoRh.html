@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Constancia - Instituto Tecnológico de Culiacán</title>
+  <link rel="stylesheet" th:href="@{/css/stylesDocumentoRh.css}">
+  <link rel="icon" type="image/png" th:href="@{/img/iv2.png}" />
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-left">
+      <img th:src="@{/img/DocRh.jpg}" alt="Educación - SEP" class="logo sep" />
+    </div>
+
+    <div class="header-right">
+      <img th:src="@{/img/DocRh2.jpg}" alt="Instituto Tecnológico de Culiacán" class="logo itc" />
+    </div>
+  </header>
+
+
+  <div class="doc-meta">
+    <div class="right-meta">
+      <div class="dept">DEPTO. DE ADMON. DE REC. HUMANOS</div>
+      <div class="folio">DARH-0288/VI/2025</div>
+    </div>
+  </div>
+
+
+  <h2 class="title">A QUIEN CORRESPONDA:</h2>
+
+
+  <main class="content">
+
+    <p>
+      La que suscribe, Jefa del Departamento de Administración de Recursos Humanos del Instituto Tecnológico de Culiacán,
+      hace CONSTAR que el (la)
+      <strong th:text="${'C. ' + TablaRhDto.nombre}">C. NOMBRE DOCENTE</strong>,
+      con filiación
+      <em th:text="${TablaRhDto.rfc}">RFC</em>,
+      presta sus servicios en este Instituto desde el
+      <strong th:text="${TablaRhDto.fechaIng}">16 de Septiembre de 2009</strong>
+      a la fecha.
+    </p>
+
+
+    <p>
+      Tenía hasta el 1° de Enero de 2024, la(s) categoría(s) de
+      <strong th:text="${TablaRhDto.categoria}">
+        PROFESOR TITULAR "B" (E.S.) TIEMPO COMPLETO., 40 hrs.
+      </strong>,
+      y actualmente cuenta con estatus de nombramiento
+      <strong th:text="${TablaRhDto.estatusNombramiento}">
+        BASE
+      </strong>.
+    </p>
+
+
+    <p>
+      El (la) maestro(a) antes mencionado(a) cumplió con
+      <strong th:text="${TablaRhDto.porcentaje}">96.50</strong>% de su jornada laboral y horario de trabajo,
+      manteniendo la exclusividad
+      <strong th:text="${TablaRhDto.exclusividad}">Es vigente</strong>.
+      Respecto a sanciones, se registra:
+      <strong th:text="${TablaRhDto.sancion}">NINGUNA</strong>.
+    </p>
+
+
+    <p>
+      Se extiende la presente constancia para los fines legales que al(a) interesado(a) convengan,
+      en la ciudad de Culiacán, Sinaloa,
+      a los nueve días del mes de Junio del año dos mil veinticinco.
+    </p>
+  </main>
+
+
+  <section class="signature">
+    <div class="att">
+      <strong>ATENTAMENTE</strong>
+      <div class="slogan">Excelencia en Educación Tecnológica®</div>
+    </div>
+
+    <div class="signed">
+
+      <!-- 1) Si YA está firmado, mostramos la imagen de la firma -->
+      <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}">
+        <img th:if="${documentoEmitido.firmaBase64 != null}"
+             th:src="${'data:image/png;base64,' + documentoEmitido.firmaBase64}"
+             alt="Firma electrónica RH"
+             style="width:220px; height:auto; display:block; margin:0 auto 5px auto;" />
+      </div>
+
+      <!-- 2) Si NO está firmado, mostramos el canvas tipo paint -->
+      <div th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+        <p style="text-align:center; margin-bottom:5px;">
+          Dibuje aquí la firma del área:
+        </p>
+
+        <canvas id="signature-pad"
+                style="border:1px solid #000; width:250px; height:120px; display:block; margin:0 auto 5px auto;">
+        </canvas>
+
+        <div style="text-align:center; margin-top:5px;">
+          <button type="button" id="clear-btn">Limpiar</button>
+          <button type="button" id="save-btn">Guardar firma</button>
+        </div>
+
+        <!-- Formulario oculto para enviar la firma al backend -->
+        <form th:action="@{/Rh/Documento/Firma/{id}(id=${documentoEmitido.documentoEmitidoId})}"
+              method="post"
+              id="firma-form">
+          <input type="hidden" name="firma" id="firma-input">
+        </form>
+      </div>
+
+      <!-- Nombre y cargo  -->
+      <div class="name">LAURA LILIANA BARRAZA CARDENAS</div>
+      <div class="position">JEFA DEL DEPARTAMENTO DE ADMINISTRACIÓN DE RECURSOS HUMANOS</div>
+
+      <!-- Leyenda de firma electrónica -->
+      <div th:if="${documentoEmitido != null and documentoEmitido.firmadoArea}"
+           style="text-align:center; font-size:11px; margin-top:4px;">
+        Firmado electrónicamente por el área de Recursos Humanos
+        el
+        <span th:text="${#temporals.format(documentoEmitido.fechaFirmaArea, 'dd/MM/yyyy HH:mm')}">
+          28/11/2025 10:00
+        </span>.
+      </div>
+    </div>
+  </section>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"
+        th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+</script>
+
+<script th:if="${documentoEmitido != null and !documentoEmitido.firmadoArea}">
+  const canvas   = document.getElementById('signature-pad');
+  const clearBtn = document.getElementById('clear-btn');
+  const saveBtn  = document.getElementById('save-btn');
+  const firmaInp = document.getElementById('firma-input');
+  const form     = document.getElementById('firma-form');
+
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(ratio, ratio);
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(255,255,255,0)',
+    penColor: 'black'
+  });
+
+  clearBtn.addEventListener('click', () => {
+    signaturePad.clear();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (signaturePad.isEmpty()) {
+      alert('Por favor dibuja la firma antes de guardar.');
+      return;
+    }
+
+    const dataUrl = signaturePad.toDataURL('image/png');
+    firmaInp.value = dataUrl;
+    form.submit();
+  });
+</script>
+
+</body>
+</html>

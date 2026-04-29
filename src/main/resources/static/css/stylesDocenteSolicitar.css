@@ -1,0 +1,277 @@
+/* --- RESET --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* --- ENCABEZADO --- */
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 5%;
+    border-bottom: 1px solid #e2e2e2;
+    flex-wrap: wrap;
+    background-color: #ffffff;
+}
+
+.logo img {
+    height: 45px;
+}
+
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+
+.menu-item > summary {
+    list-style: none;
+}
+
+/* Compatibilidad */
+.menu-item > summary::-webkit-details-marker {
+    display: none;
+}
+.menu-item > summary::marker {
+    content: "";
+}
+
+/* Botón del summary */
+.menu-item > summary {
+    cursor: pointer;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #0073b7;
+    background-color: #ffffff;
+    color: #0073b7;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+}
+
+.menu-item > summary:hover {
+    background-color: #0073b7;
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+/* Panel desplegado */
+.menu-item {
+    position: relative;
+}
+
+.menu-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background-color: #ffffff;
+    min-width: 240px;
+    border-radius: 10px;
+    border: 1px solid #e1e1e1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 12px 16px;
+    z-index: 100;
+    font-size: 0.9rem;
+}
+
+/* Ocultar panel cuando el details está cerrado */
+.menu-item:not([open]) .menu-panel {
+    display: none;
+}
+
+.menu-panel p {
+    margin-bottom: 6px;
+}
+
+.menu-panel a {
+    display: inline-block;
+    text-decoration: none;
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: #e8f2fb;
+    color: #0073b7;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.menu-panel a:hover {
+    background-color: #0073b7;
+    color: #ffffff;
+}
+
+/* Botón tipo “cerrar sesión” */
+.btn-cerrar-sesion {
+    background-color: #dadcdd;
+    color: #000;
+}
+.btn-cerrar-sesion:hover {
+    background-color: #005f8c;
+    color: #fff;
+}
+
+/* --- MENSAJES (ÉXITO / ERROR) --- */
+.mensajes {
+    width: 90%;
+    margin: 10px auto 0;
+}
+
+.mensajes p {
+    margin-bottom: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+/* mensaje de éxito */
+.mensajes .msg-ok {
+    background-color: #e6f9ec;
+    border: 1px solid #7ccf91;
+    color: #256237;
+}
+
+/* mensaje de error */
+.mensajes .msg-error {
+    background-color: #ffecec;
+    border: 1px solid #f5a3a3;
+    color: #9b1c1c;
+}
+
+
+.cambio {
+    width: 100%;
+    background-color: #0073b7;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.cambio a {
+    text-decoration: none;
+    color: #0073b7;
+    font-weight: bold;
+    margin: 0 15px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background-color: white;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.2s;
+}
+
+.cambio a:hover {
+    background-color: #005f8c;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+/* --- TABLA --- */
+.tabla {
+    width: 90%;
+    margin: 35px auto 40px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px #00000020;
+}
+
+.tabla table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.95rem;
+}
+
+.tabla th {
+    background-color: #0073b7;
+    color: white;
+    font-weight: bold;
+}
+
+.tabla tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.tabla tr:hover {
+    background-color: #e9f4ff;
+}
+
+
+.tabla form button {
+    border: none;
+    border-radius: 16px;
+    padding: 6px 14px;
+    background-color: #0073b7;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.05s;
+}
+
+.tabla form button:hover {
+    background-color: #005f8c;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.tabla form button:active {
+    transform: scale(0.97);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    .encabezado {
+        padding: 10px 4%;
+    }
+
+    .menu {
+        justify-content: center;
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .encabezado {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .menu {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .menu-item > summary {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+
+    .tabla {
+        width: 96%;
+    }
+
+    .tabla th,
+    .tabla td {
+        font-size: 0.85rem;
+        padding: 10px 12px;
+    }
+}
